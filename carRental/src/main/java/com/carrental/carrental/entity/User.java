@@ -3,6 +3,7 @@ package com.carrental.carrental.entity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "rental",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -35,14 +39,21 @@ public class User {
     @JoinColumn(name = "user_details_id")
     private UserDetail userDetail;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String password) {
+    public User(String firstName, String lastName, String password, boolean enabled, Collection<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.enabled = enabled;
+        this.roles = roles;
     }
 
     /**
@@ -71,7 +82,19 @@ public class User {
     }
 
     public void addOwnerCar(Car car) {
+        if (ownedCars == null) {
+            ownedCars = new ArrayList<>();
+        }
+        ownedCars.add(car);
+        car.setOwner(this);
+    }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Integer getId() {
@@ -130,15 +153,24 @@ public class User {
         this.ownedCars = ownedCars;
     }
 
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "userDetail=" + userDetail +
+                ", enabled=" + enabled +
                 ", password='" + password + '\'' +
-                ", userDetail=" + userDetail +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", id=" + id +
+                ", roles=" + roles +
                 '}';
     }
-
 }

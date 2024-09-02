@@ -10,13 +10,13 @@ public class UserDetail {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "country", length = 50)
+    @Column(name = "country")
     private String country;
 
-    @Column(name = "city", length = 50)
+    @Column(name = "city")
     private String city;
 
-    @Column(name = "email", length = 100)
+    @Column(name = "email")
     private String email;
 
     @OneToOne(mappedBy = "userDetail", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})

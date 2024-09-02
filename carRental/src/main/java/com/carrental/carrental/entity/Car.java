@@ -202,7 +202,6 @@ public class Car {
                 ", photoUrl='" + photoUrl + '\'' +
                 ", owner=" + owner +
                 ", users=" + users +
-                ", reviews=" + reviews +
                 '}';
     }
 }

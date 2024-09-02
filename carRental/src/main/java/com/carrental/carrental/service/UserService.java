@@ -1,10 +1,13 @@
 package com.carrental.carrental.service;
 
 import com.carrental.carrental.dao.UserDAO;
+import com.carrental.carrental.entity.Car;
 import com.carrental.carrental.entity.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -19,4 +22,29 @@ public class UserService {
     public User getUserById(int id) {
         return userDAO.getUserById(id);
     }
+
+    @Transactional
+    public void saveUser(User user) {
+        userDAO.saveUser(user);
+    }
+
+    @Transactional
+    public void deleteUser(int id) {
+        userDAO.deleteUser(id);
+    }
+
+    @Transactional
+    public void updateUser(User user) {
+        userDAO.updateUser(user);
+    }
+
+    public List<Car> getUsersCars(int id) {
+        return userDAO.getUsersCars(id);
+    }
+
+    @Transactional
+    public void addRole(User user, String role){
+        userDAO.addRole(user, role);
+    }
+
 }

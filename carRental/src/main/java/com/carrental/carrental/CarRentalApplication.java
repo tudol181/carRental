@@ -2,17 +2,21 @@ package com.carrental.carrental;
 
 import com.carrental.carrental.dao.CarDAO;
 import com.carrental.carrental.dao.UserDAO;
-import com.carrental.carrental.entity.Car;
-import com.carrental.carrental.entity.User;
-import com.carrental.carrental.entity.UserDetail;
+import com.carrental.carrental.entity.*;
 import com.carrental.carrental.service.CarService;
+import com.carrental.carrental.service.ReviewService;
 import com.carrental.carrental.service.UserService;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @SpringBootApplication
 public class CarRentalApplication {
@@ -21,19 +25,20 @@ public class CarRentalApplication {
         SpringApplication.run(CarRentalApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner commandLineRunner(UserDAO userDAO, CarDAO carDAO) {
-        return args -> {
-            try {
-                User user = userDAO.getUserById(1);
-                UserDetail userDetail = new UserDetail("0726482997", "user@example.com", "CityName", "CountryName");
-                user.setUserDetail(userDetail);
-                System.out.println(user);
-            } catch (Exception e) {
-                e.printStackTrace();  // Print the stack trace for debugging
-            }
-
-        };
-    }
+//    @Bean
+//    public CommandLineRunner commandLineRunner(UserService userService, CarService carService, ReviewService reviewService) {
+//        return runner -> {
+//            try {
+//                User user = userService.getUserById(1);
+//                // Save the user with the new roles
+//                userService.updateUser(user);
+//
+//                System.out.println(user);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        };
+//    }
 
 };
