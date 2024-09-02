@@ -12,4 +12,5 @@ public interface UserDAO {
     void updateUser(User user);
     List<Car> getUsersCars(int id);
     void addRole(User user, String role);
+    boolean checkUsername(String username);
 }

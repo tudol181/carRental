@@ -5,6 +5,8 @@ import com.carrental.carrental.entity.Car;
 import com.carrental.carrental.entity.Role;
 import com.carrental.carrental.entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Table;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -62,6 +64,13 @@ public class UserDAOImpl implements UserDAO {
         roles.add(roleFound);
         user.setRoles(roles);
 //        em.merge(user);
+    }
+
+    @Override
+    public boolean checkUsername(String username) {
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(*) FROM User WHERE userName = :username", Long.class);
+        query.setParameter("username", username);
+        return query.getSingleResult() > 0;
     }
 
 

@@ -48,6 +48,11 @@ public class AppController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user, @ModelAttribute UserDetail userDetail, @RequestParam("role") String roleName, Model model) {
+        if (userService.checkUsername(user.getUserName())) {
+            model.addAttribute("errorMessage", "Username already exists. Please choose a different username.");
+            return "register";  // return registration cause username already exists
+        }
+
         user.setUserDetail(userDetail);
         user.setEnabled(true);
         user.setPassword("{noop}" + user.getPassword());

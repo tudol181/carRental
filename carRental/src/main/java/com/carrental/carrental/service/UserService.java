@@ -47,4 +47,8 @@ public class UserService {
         userDAO.addRole(user, role);
     }
 
+    public boolean checkUsername(String username){
+        return userDAO.checkUsername(username);
+    }
+
 }

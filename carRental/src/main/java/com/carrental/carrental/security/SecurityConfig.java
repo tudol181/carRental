@@ -17,19 +17,19 @@ public class SecurityConfig {
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
-        // Find users by first_name as the username
+        // Find users by user_name as the username
         jdbcUserDetailsManager.setUsersByUsernameQuery(
-                "SELECT first_name AS username, password, enabled FROM user WHERE first_name = ?"
+                "SELECT user_name AS username, password, enabled FROM user WHERE user_name = ?"
         );
 
 
-        // Find authorities by first_name as the username
+        // Find authorities by user_name as the username
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-                "SELECT u.first_name AS username, r.role_name AS authority " +
+                "SELECT u.user_name AS username, r.role_name AS authority " +
                         "FROM user_roles ur " +
                         "JOIN user u ON ur.user_id = u.id " +
                         "JOIN roles r ON ur.role_id = r.id " +
-                        "WHERE u.first_name = ?"
+                        "WHERE u.user_name = ?"
         );
 
         return jdbcUserDetailsManager;

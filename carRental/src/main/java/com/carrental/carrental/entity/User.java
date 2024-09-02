@@ -14,6 +14,9 @@ public class User {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Column(name = "user_name")
+    private String userName;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -48,12 +51,13 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String password, boolean enabled, Collection<Role> roles) {
+    public User(String firstName, String lastName, String password, boolean enabled, Collection<Role> roles, String userName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.enabled = enabled;
         this.roles = roles;
+        this.userName = userName;
     }
 
     /**
@@ -161,6 +165,14 @@ public class User {
         this.roles = roles;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -169,6 +181,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
+                ", userName='" + userName + '\'' +
                 ", id=" + id +
                 ", roles=" + roles +
                 '}';
