@@ -23,53 +23,59 @@
         </div>
 
         <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{userName}">
 
-
-        <div class="mb-3">
-            <label for="userName" class="form-label">Username</label>
-            <input type="text" id="userName" th:field="*{userName}" class="form-control" required/>
-            <div th:if="${#fields.hasErrors('userName')}" class="text-danger">
-                <p th:errors="*{userName}"></p>
-            </div>
-        </div>
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
-            <input type="text" id="firstName" th:field="*{firstName}" class="form-control" required/>
+            <input type="text" th:field="*{firstName}" class="form-control" id="firstName" placeholder="Enter your first name">
             <div th:if="${#fields.hasErrors('firstName')}" class="text-danger">
                 <p th:errors="*{firstName}"></p>
             </div>
         </div>
+
         <div class="mb-3">
             <label for="lastName" class="form-label">Last Name</label>
-            <input type="text" id="lastName" th:field="*{lastName}" class="form-control" required/>
+            <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Enter your last name">
             <div th:if="${#fields.hasErrors('lastName')}" class="text-danger">
                 <p th:errors="*{lastName}"></p>
             </div>
         </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Enter your password">
+            <div th:if="${#fields.hasErrors('password')}" class="text-danger">
+                <p th:errors="*{password}"></p>
+            </div>
+        </div>
+
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" th:field="*{userDetail.email}" class="form-control" required/>
+            <input type="text" th:field="*{userDetail.email}" class="form-control" id="email" placeholder="Enter your email address">
             <div th:if="${#fields.hasErrors('userDetail.email')}" class="text-danger">
                 <p th:errors="*{userDetail.email}"></p>
             </div>
         </div>
+
         <div class="mb-3">
             <label for="phoneNumber" class="form-label">Phone Number</label>
-            <input type="text" id="phoneNumber" th:field="*{userDetail.phoneNumber}" class="form-control"/>
+            <input type="text" th:field="*{userDetail.phoneNumber}" class="form-control" id="phoneNumber" placeholder="Enter your phone number">
             <div th:if="${#fields.hasErrors('userDetail.phoneNumber')}" class="text-danger">
                 <p th:errors="*{userDetail.phoneNumber}"></p>
             </div>
         </div>
+
         <div class="mb-3">
             <label for="city" class="form-label">City</label>
-            <input type="text" id="city" th:field="*{userDetail.city}" class="form-control"/>
+            <input type="text" th:field="*{userDetail.city}" class="form-control" id="city" placeholder="Enter your city">
             <div th:if="${#fields.hasErrors('userDetail.city')}" class="text-danger">
                 <p th:errors="*{userDetail.city}"></p>
             </div>
         </div>
+
         <div class="mb-3">
             <label for="country" class="form-label">Country</label>
-            <input type="text" id="country" th:field="*{userDetail.country}" class="form-control"/>
+            <input type="text" th:field="*{userDetail.country}" class="form-control" id="country" placeholder="Enter your country">
             <div th:if="${#fields.hasErrors('userDetail.country')}" class="text-danger">
                 <p th:errors="*{userDetail.country}"></p>
             </div>
