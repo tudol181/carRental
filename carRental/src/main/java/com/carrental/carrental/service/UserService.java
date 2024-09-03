@@ -43,15 +43,19 @@ public class UserService {
     }
 
     @Transactional
-    public void addRole(User user, String role){
+    public void addRole(User user, String role) {
         userDAO.addRole(user, role);
     }
 
-    public boolean checkUsername(String username){
+    public boolean checkUsername(String username) {
         return userDAO.checkUsername(username);
     }
-    public User getUserByUsername(String username){
+
+    public User getUserByUsername(String username) {
         return userDAO.getUserByUsername(username);
     }
 
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
 }

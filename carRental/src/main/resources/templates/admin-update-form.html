@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit User</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h3>Edit User</h3>
+  <form action="#" th:action="@{/admin/save}" th:object="${user}" method="POST">
+    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{userName}">
+
+
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First Name</label>
+      <input type="text" th:field="*{firstName}" class="form-control" id="firstName" placeholder="First Name" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Last Name" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" th:field="*{userDetail.email}" class="form-control" id="email" placeholder="Email" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="phoneNumber" class="form-label">Phone Number</label>
+      <input type="text" th:field="*{userDetail.phoneNumber}" class="form-control" id="phoneNumber" placeholder="Phone Number" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update User</button>
+  </form>
+
+  <hr>
+  <a th:href="@{/admin}">Back to Admin Dashboard</a>
+</div>
+
+</body>
+</html>

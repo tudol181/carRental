@@ -14,4 +14,5 @@ public interface UserDAO {
     void addRole(User user, String role);
     boolean checkUsername(String username);
     User getUserByUsername(String username);
+    List<User> getAllUsers();
 }

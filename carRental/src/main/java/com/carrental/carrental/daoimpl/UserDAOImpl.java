@@ -80,5 +80,10 @@ public class UserDAOImpl implements UserDAO {
         return query.getSingleResult();
     }
 
+    @Override
+    public List<User> getAllUsers() {
+        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+    }
+
 
 }

@@ -140,6 +140,8 @@
     <a href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
     <a href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
     <a href="#" th:href="@{/user/profile}" sec:authorize="isAuthenticated()">User profile</a>
+<!--    <a href="#" th:href="@{/user/profile}" sec:authorize="isAuthenticated()">User profile</a>-->
+
     <form action="#" th:action="@{/logout}" method="post">
         <input type="submit" value="Logout" sec:authorize="isAuthenticated()">
     </form>
