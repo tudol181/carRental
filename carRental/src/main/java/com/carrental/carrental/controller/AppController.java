@@ -1,14 +1,15 @@
 package com.carrental.carrental.controller;
 
 import com.carrental.carrental.entity.Car;
-import com.carrental.carrental.entity.Role;
 import com.carrental.carrental.entity.User;
 import com.carrental.carrental.entity.UserDetail;
 import com.carrental.carrental.service.CarService;
 import com.carrental.carrental.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +48,10 @@ public class AppController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user, @ModelAttribute UserDetail userDetail, @RequestParam("role") String roleName, Model model) {
+    public String registerUser(@Valid @ModelAttribute User user, BindingResult userBindingResult, @Valid @ModelAttribute UserDetail userDetail, BindingResult userDetailBindingResult, @RequestParam("role") String roleName, Model model) {
+        if (userBindingResult.hasErrors() || userDetailBindingResult.hasErrors()) {
+            return "register"; // registration page if errors are found
+        }
         if (userService.checkUsername(user.getUserName())) {
             model.addAttribute("errorMessage", "Username already exists. Please choose a different username.");
             return "register";  // return registration cause username already exists

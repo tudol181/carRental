@@ -1,6 +1,9 @@
 package com.carrental.carrental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,15 +17,26 @@ public class User {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @NotNull(message = "is required")
+    @Size(min = 3, message = "username must have at least 3 characters")
     @Column(name = "user_name")
     private String userName;
 
+    @NotNull(message = "is required")
+    @Pattern(regexp = "^[a-zA-Z]*$", message = "First name must contain only letters")
+    @Size(max = 50, message = "First name must not exceed 50 characters")
     @Column(name = "first_name")
     private String firstName;
 
+    @NotNull(message = "Last name is required")
+    @Pattern(regexp = "^[a-zA-Z]*$", message = "Last name must contain only letters")
+    @Size(max = 50, message = "Last name must not exceed 50 characters")
     @Column(name = "last_name")
     private String lastName;
 
+    @NotNull(message = "Password is required")
+    @Size(min = 4, message = "Password must have at least 4 characters")
+    @Size(max = 100, message = "Password must not exceed 100 characters") // Optional: Add maximum length
     @Column(name = "password")
     private String password;
 
