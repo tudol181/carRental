@@ -13,4 +13,5 @@ public interface UserDAO {
     List<Car> getUsersCars(int id);
     void addRole(User user, String role);
     boolean checkUsername(String username);
+    User getUserByUsername(String username);
 }

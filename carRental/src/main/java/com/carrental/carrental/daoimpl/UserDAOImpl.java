@@ -73,5 +73,12 @@ public class UserDAOImpl implements UserDAO {
         return query.getSingleResult() > 0;
     }
 
+    @Override
+    public User getUserByUsername(String username) {
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.userName = :username", User.class);
+        query.setParameter("username", username);
+        return query.getSingleResult();
+    }
+
 
 }

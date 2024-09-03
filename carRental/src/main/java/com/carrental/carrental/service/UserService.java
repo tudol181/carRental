@@ -50,5 +50,8 @@ public class UserService {
     public boolean checkUsername(String username){
         return userDAO.checkUsername(username);
     }
+    public User getUserByUsername(String username){
+        return userDAO.getUserByUsername(username);
+    }
 
 }

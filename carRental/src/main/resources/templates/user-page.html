@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>User Profile</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .car-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .car-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            width: calc(33.33% - 20px); /* Adjust width to fit multiple cars */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .car-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .price {
+            font-weight: bold;
+            color: green;
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Ensure vertical alignment */
+            background-color: #444;
+            padding: 10px;
+        }
+
+        .nav a, .nav form {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 1.2em;
+            margin: 0 5px; /* Space between items */
+            display: inline-flex; /* Align form with links */
+            align-items: center; /* Vertical alignment */
+        }
+
+        .nav a:hover, .nav form input:hover {
+            background-color: #555;
+        }
+
+        .nav form {
+            border: none; /* Remove default form styling */
+        }
+
+        .nav input[type="submit"] {
+            background: none;
+            border: none;
+            color: white;
+            padding: 14px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .nav input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>User Profile</h1>
+</div>
+<div class="nav">
+    <a href="#" th:href="@{/about}">About Us</a>
+    <a href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
+    <a href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
+    <a href="#" th:href="@{/}" sec:authorize="isAuthenticated()">Home</a>
+    <form action="#" th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout" sec:authorize="isAuthenticated()">
+    </form>
+</div>
+<div class="container mt-5">
+    <h2 th:text="${user.firstName} + ' ' + ${user.lastName}"></h2>
+    <p><strong>Username:</strong> <span th:text="${user.userName}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${user.userDetail.email}"></span></p>
+    <p><strong>Phone Number:</strong> <span th:text="${user.userDetail.phoneNumber}"></span></p>
+    <p><strong>City:</strong> <span th:text="${user.userDetail.city}"></span></p>
+    <p><strong>Country:</strong> <span th:text="${user.userDetail.country}"></span></p>
+
+    <!-- Rented Cars Section -->
+    <h3>Rented Cars</h3>
+    <div class="car-list">
+        <div th:if="${not #lists.isEmpty(rentedCars)}">
+            <div class="car-item" th:each="car : ${rentedCars}">
+                <img th:src="${car.photoUrl}" alt="Car Image" style="max-width: 100%; height: auto;">
+                <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
+                <p>Year: <span th:text="${car.year}"></span></p>
+                <p>Seats: <span th:text="${car.seats}"></span></p>
+                <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
+                <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
+                <p class="price" th:text="'$' + ${car.price}"></p>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(rentedCars)}" class="list-group-item">
+            No rented cars found.
+        </div>
+    </div>
+    <a href="#" th:href="@{/user/edit-profile(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
+
+</div>
+</body>
+</html>

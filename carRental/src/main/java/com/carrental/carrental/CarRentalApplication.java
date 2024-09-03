@@ -25,20 +25,18 @@ public class CarRentalApplication {
         SpringApplication.run(CarRentalApplication.class, args);
     }
 
-//    @Bean
-//    public CommandLineRunner commandLineRunner(UserService userService, CarService carService, ReviewService reviewService) {
-//        return runner -> {
-//            try {
-//                User user = userService.getUserById(1);
-//                // Save the user with the new roles
-//                userService.updateUser(user);
-//
-//                System.out.println(user);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        };
-//    }
+    @Bean
+    public CommandLineRunner commandLineRunner(UserService userService, CarService carService, ReviewService reviewService) {
+        return runner -> {
+            try {
+                User user = userService.getUserById(21);
+                // Save the user with the new role
+                System.out.println(user.getUserDetail().getEmail());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        };
+    }
 
 };
