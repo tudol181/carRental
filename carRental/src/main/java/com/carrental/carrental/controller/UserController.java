@@ -65,12 +65,16 @@ public class UserController {
             return "edit-profile"; // Return to the form if there are validation errors
         }
 
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            user.setPassword(userService.getUserById(user.getId()).getPassword());
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            String encodedPassword = "{noop}" + user.getPassword();
+            user.setPassword(encodedPassword);
+        } else {
+            // Retain the old password
+            user.setPassword(currentUser.getPassword());
         }
-
-        user.setPassword("{noop}" + user.getPassword());
-        userService.updateUser(user); // Update user details
+        user.setEnabled(true);
+        user.setRoles(userService.getUserById(currentUser.getId()).getRoles());
+        userService.updateUser(user);
 
         return "redirect:/user/profile"; // Redirect to the profile page after successful update
     }

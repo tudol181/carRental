@@ -36,7 +36,11 @@ public class AdminController {
     @PostMapping("/save")
     public String saveUser(@ModelAttribute("user") User user) {
         User existingUser = userService.getUserById(user.getId());
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            String encodedPassword = "{noop}" + user.getPassword();
+            user.setPassword(encodedPassword);
+        } else {
+            // Retain the old password
             user.setPassword(existingUser.getPassword());
         }
         // Retain old values if the new values are empty
@@ -48,6 +52,8 @@ public class AdminController {
             user.getUserDetail().setCity(existingUser.getUserDetail().getCity());
         }
 
+        user.setEnabled(true);
+        user.setRoles(userService.getUserById(existingUser.getId()).getRoles());
         userService.updateUser(user);
         return "redirect:/admin";
     }

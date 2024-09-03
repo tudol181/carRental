@@ -29,9 +29,11 @@ public class CarRentalApplication {
     public CommandLineRunner commandLineRunner(UserService userService, CarService carService, ReviewService reviewService) {
         return runner -> {
             try {
-                User user = userService.getUserById(21);
+                User user = userService.getUserById(22);
+                user.setEnabled(true);
+                userService.updateUser(user);
                 // Save the user with the new role
-                System.out.println(user.getUserDetail().getEmail());
+                System.out.println(user);
             } catch (Exception e) {
                 e.printStackTrace();
             }
