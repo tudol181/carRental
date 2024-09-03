@@ -1,6 +1,8 @@
 package com.carrental.carrental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,28 +16,45 @@ public class Car {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "Name", length = 100)
+    @Column(name = "Name")
+    @NotNull(message = "is required")
+    @Size(max = 50, message = "Name must not exceed 50 characters")
     private String name;
 
-    @Column(name = "model", length = 100)
+    @Column(name = "model")
+    @NotNull(message = "Model is required")
+    @Size(max = 50, message = "Model must not exceed 50 characters")
     private String model;
 
     @Column(name = "year")
+    @NotNull(message = "Year is required")
+    @Size(max = 50, message = "Year must not exceed 50 characters")
+    @Pattern(regexp = "^\\d{10}$", message = "Year must be numeric and only contain digits")
     private Integer year;
 
     @Column(name = "seats")
+    @NotNull(message = "Year is required")
+    @Size(min = 1, message = "At least a seat")
+    @Pattern(regexp = "^\\d{1,2}$", message = "Only digits")
     private Integer seats;
 
     @Column(name = "capacity")
+    @NotNull(message = "Capacity is required")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Capacity must be greater than 0")
     private Float capacity;
 
     @Column(name = "minimum_driver_age")
+    @NotNull(message = "Minimum driver age is required")
+    @Min(value = 18, message = "Minimum driver age must be at least 18")
     private Integer minimumDriverAge;
 
     @Column(name = "price")
+    @NotNull(message = "Price is required")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
     private BigDecimal price;
 
     @Column(name = "photo_url")
+    @URL(message = "Photo URL must be a valid URL")
     private String photoUrl;
 
     @ManyToOne

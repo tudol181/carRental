@@ -32,10 +32,17 @@
       <td th:text="${user.getUserDetail() != null ? user.userDetail.email : 'N/A'}"></td>
       <td th:text="${user.getUserDetail() != null ? user.getUserDetail().getPhoneNumber() : 'N/A'}"></td>
       <td>
-        <a th:href="@{/admin/showFormForUpdate(id=${user.id})}" class="btn btn-warning btn-sm">Edit</a>
-        <a th:href="@{/admin/delete(id=${user.id})}" class="btn btn-danger btn-sm"
-           onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-      </td>
+        <div class="d-inline-flex">
+          <a th:href="@{/admin/showUserFormForUpdate(id=${user.id})}" class="btn btn-warning btn-sm me-2">Edit</a>
+          <form th:action="@{/admin/delete(id=${user.id})}" method="post">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        </div>
+
+
+        <!--        <a th:href="@{/admin/delete(id=${user.id})}" class="btn btn-danger btn-sm"-->
+<!--           onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>-->
+<!--      </td>-->
     </tr>
     </tbody>
   </table>
@@ -60,7 +67,7 @@
       <td th:text="${car.year}"></td>
       <td th:text="${car.price}"></td>
       <td>
-        <a th:href="@{/admin/edit-car(id=${car.id})}" class="btn btn-warning btn-sm">Edit</a>
+        <a th:href="@{/admin/showCarFormForUpdate(id=${car.id})}" class="btn btn-warning btn-sm">Edit</a>
         <a th:href="@{/admin/delete-car(id=${car.id})}" class="btn btn-danger btn-sm"
            onclick="return confirm('Are you sure you want to delete this car?');">Delete</a>
       </td>

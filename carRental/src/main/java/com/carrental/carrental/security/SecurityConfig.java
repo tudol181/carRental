@@ -42,7 +42,7 @@ public class SecurityConfig {
                                         .requestMatchers("/").permitAll()
                                         .requestMatchers("/login").permitAll()
                                         .requestMatchers("/register").permitAll()
-//                                .requestMatchers("/").hasRole("EMPLOYEE")
+                                        .requestMatchers("/admin/**").hasRole("SELLER")
 //                                .requestMatchers("leaders/**").hasRole("MANAGER")
 //                                .requestMatchers("/systems/**").hasRole("ADMIN")
                                         .anyRequest().authenticated()

@@ -64,8 +64,9 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/showFormForUpdate")
-    public String showFormForUpdateGET(@RequestParam("id") int id,Model model) {
+    @GetMapping("/showUserFormForUpdate")
+    public String showUserFormForUpdateGET(@RequestParam("id") int id,Model model) {
+
 
         // get the employee from the service
         User user = userService.getUserById(id);
@@ -78,8 +79,8 @@ public class AdminController {
     }
 
 
-    @PostMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("id") int id,
+    @PostMapping("/showUserFormForUpdate")
+    public String showUserFormForUpdate(@RequestParam("id") int id,
                                     Model theModel) {
 
         // get the employee from the service
@@ -90,6 +91,44 @@ public class AdminController {
 
         // send over to our form
         return "admin-update-form";
+    }
+
+    // car section
+
+    @GetMapping("/showCarFormForUpdate")
+    public String showCarFormForUpdateGET(@RequestParam("id") int id,Model model) {
+
+        // get the car
+        Car car = carService.findCarById(id);
+        // prepopulate with car info
+        model.addAttribute("car", car);
+
+        // send over to our form
+        return "admin-edit-car";
+    }
+
+
+    @PostMapping("/showCarFormForUpdate")
+    public String showCarFormForUpdate(@RequestParam("id") int id,
+                                        Model model) {
+
+        // get the employee from the service
+        Car car = carService.findCarById(id);
+
+        // set employee as a model attribute to pre-populate the form
+        model.addAttribute("car", car);
+
+        // send over to our form
+        return "admin-edit-car";
+    }
+
+    @PostMapping("/saveCar")
+    public String saveCar(@ModelAttribute("car") Car car) {
+
+        Car existingCar = carService.findCarById(car.getId());
+
+        carService.updateCar(car);
+        return "redirect:/admin";
     }
 
 }

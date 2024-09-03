@@ -55,9 +55,9 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void addRole(User user, String role) {
-        int roleCode = 1;
+        int roleCode = 4;//default for client
         if("SELLER".equals(role)) {
-            roleCode = 2;
+            roleCode = 6;
         }
         Role roleFound = em.find(Role.class, roleCode);
         Collection<Role> roles = new ArrayList<Role>();
