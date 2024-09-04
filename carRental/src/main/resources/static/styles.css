@@ -74,7 +74,7 @@ body {
 }
 
 .car-list {
-    display: flex;
+    display: block;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -83,9 +83,10 @@ body {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 5px;
-    margin: 15px;
+    margin: 15px auto; /* Center each car item and space them vertically */
     padding: 15px;
-    width: 300px;
+    width: 80%; /* Adjust width for better responsiveness */
+    max-width: 500px; /* Maximum width to avoid too large items */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 

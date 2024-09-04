@@ -30,10 +30,12 @@ public class CarRentalApplication {
         return runner -> {
             try {
                 User user = userService.getUserById(24);
-                Car car= carService.findCarById(1);
+                Car car = carService.findCarById(4);
+                car.setPhotoUrl("/photos/composture.jpg");
+                carService.updateCar(car);
 //                userService.addCar(user, car);
                 // Save the user with the new role
-                System.out.println(user);
+                System.out.println(car);
             } catch (Exception e) {
                 e.printStackTrace();
             }

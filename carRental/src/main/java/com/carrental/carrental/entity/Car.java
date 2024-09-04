@@ -18,24 +18,21 @@ public class Car {
 
     @Column(name = "Name")
     @NotNull(message = "is required")
-    @Size(max = 50, message = "Name must not exceed 50 characters")
     private String name;
 
     @Column(name = "model")
     @NotNull(message = "Model is required")
-    @Size(max = 50, message = "Model must not exceed 50 characters")
     private String model;
 
     @Column(name = "year")
     @NotNull(message = "Year is required")
-    @Size(max = 50, message = "Year must not exceed 50 characters")
-    @Pattern(regexp = "^\\d{10}$", message = "Year must be numeric and only contain digits")
+//    @Size(max = 50, message = "Year must not exceed 50 characters")
+//    @Pattern(regexp = "^\\d{10}$", message = "Year must be numeric and only contain digits")
     private Integer year;
 
     @Column(name = "seats")
     @NotNull(message = "Year is required")
-    @Size(min = 1, message = "At least a seat")
-    @Pattern(regexp = "^\\d{1,2}$", message = "Only digits")
+    @Min(value = 1, message = "At least a seat")
     private Integer seats;
 
     @Column(name = "capacity")
@@ -54,7 +51,6 @@ public class Car {
     private BigDecimal price;
 
     @Column(name = "photo_url")
-    @URL(message = "Photo URL must be a valid URL")
     private String photoUrl;
 
     @ManyToOne
