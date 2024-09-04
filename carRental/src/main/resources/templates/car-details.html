@@ -13,6 +13,7 @@
 
 <div class="nav">
     <a href="#" th:href="@{/about}">About Us</a>
+    <a href="#" th:href="@{/}">Home</a>
     <a href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
     <a href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
     <a href="#" th:href="@{/user/profile}" sec:authorize="isAuthenticated()">User profile</a>
@@ -32,7 +33,16 @@
     <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
     <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
     <p class="price" th:text="'$' + ${car.price}"></p>
+
+    <!-- display all the car photos -->
+    <h3>Additional Photos:</h3>
+    <div class="photo-gallery">
+        <div th:each="photo : ${photos}">
+            <img th:src="${photo.url}" alt="Car Photo" class = "photo-gallery-img"/>
+        </div>
+    </div>
 </div>
+
 <a href="#" th:href="@{/}">Back to Car List</a>
 
 </body>

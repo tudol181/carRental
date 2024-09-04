@@ -226,3 +226,16 @@ body {
 .car-details a:hover {
     background-color: #005f73; /* Darker blue on hover */
 }
+.photo-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adds spacing between images */
+}
+
+.photo-gallery-img {
+    width: 200px;   /* Set the desired width */
+    height: 150px;  /* Set the desired height */
+    object-fit: cover; /* Ensures the image covers the entire area without stretching */
+    border: 2px solid #ddd; /* Optional: Add a border to the images */
+    border-radius: 5px; /* Optional: Add rounded corners */
+}

@@ -1,8 +1,9 @@
 package com.carrental.carrental.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.URL;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -68,6 +69,9 @@ public class Car {
     @JoinColumn(name = "car_id")
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    private List<Photo> photos;
+
     public Car() {
 
     }
@@ -105,6 +109,22 @@ public class Car {
             users = new ArrayList<>();
         }
         users.add(user);
+    }
+
+    public void addPhoto(Photo photo) {
+        if (photos == null) {
+            photos = new ArrayList<>();
+        }
+        photos.add(photo);
+        photo.setCar(this);
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
     }
 
     public List<Review> getReviews() {

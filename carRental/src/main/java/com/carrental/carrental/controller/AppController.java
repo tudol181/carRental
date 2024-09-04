@@ -82,6 +82,11 @@ public class AppController {
         return "login";
     }
 
+    @GetMapping("/about")
+    public String about() {
+        return "about-us";
+    }
+
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());

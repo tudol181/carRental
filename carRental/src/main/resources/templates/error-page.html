@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Error</title>
+  <link href="/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+<div class="header">
+  <h1>Oops! Something went wrong.</h1>
+</div>
+<div class="nav">
+  <a href="#" th:href="@{/about}">About Us</a>
+  <a href="#" th:href="@{/}">Home</a>
+  <a href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
+  <a href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
+  <a href="#" th:href="@{/user/profile}" sec:authorize="isAuthenticated()">User profile</a>
+  <a href="#" th:href="@{/admin}" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">Admin</a>
+  <a href="#" th:href="@{/car/addCar}" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">Add a car</a>
+
+  <form action="#" th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout" sec:authorize="isAuthenticated()">
+  </form>
+</div>
+<div class="error-details">
+  <p th:text="${errorMessage}">An unexpected error has occurred.</p>
+  <a href="/" class="button">Back to Home</a>
+</div>
+</body>
+</html>

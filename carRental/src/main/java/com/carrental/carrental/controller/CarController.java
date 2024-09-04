@@ -1,7 +1,9 @@
 package com.carrental.carrental.controller;
 
 import com.carrental.carrental.entity.Car;
+import com.carrental.carrental.entity.Photo;
 import com.carrental.carrental.service.CarService;
+import com.carrental.carrental.service.PhotoService;
 import com.carrental.carrental.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +18,19 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/car")
 public class CarController {
     private final CarService carService;
     private final UserService userService;
-
+    private final PhotoService photoService;
     @Autowired
-    public CarController(CarService carService, UserService userService) {
+    public CarController(CarService carService, UserService userService, PhotoService photoService) {
         this.carService = carService;
         this.userService = userService;
+        this.photoService = photoService;
     }
 
     @GetMapping("/addCar")
@@ -37,31 +41,40 @@ public class CarController {
 
     @PostMapping("/addCar")
     public String addCar(@Valid @ModelAttribute("car") Car car, BindingResult carBindingResult, @RequestParam("photo") MultipartFile photo, Model model, Principal principal) {
-        if(carBindingResult.hasErrors()) {
+        if (carBindingResult.hasErrors()) {
             return "add-car";
         }
 
-        String photoPath = savePhoto(photo);
-        car.setPhotoUrl(photoPath);
         car.setOwner(userService.getUserByUsername(principal.getName()));
-
         carService.saveCar(car);
-        userService.getUserByUsername(principal.getName()).addCar(car);
+
+        String photoPath = savePhoto(photo, car);
+
+        car.setPhotoUrl(photoPath);
+        carService.updateCar(car);
+
+        userService.getUserByUsername(principal.getName()).addOwnedCar(car);
         userService.updateUser(userService.getUserByUsername(principal.getName()));
-        return "redirect:/";
+        return "redirect:/car/addCarPhotos/" + car.getId();
     }
 
-    private String savePhoto(MultipartFile photo) {
-        // Define the folder where photos will be saved
-        String folder = "C:\\Users\\tudy1\\OneDrive\\Desktop\\car-rental-project\\carRental\\src\\main\\resources\\static\\photos";
-        String fileName = photo.getOriginalFilename();
-        Path filePath = Paths.get(folder, fileName);
+    private String savePhoto(MultipartFile photo, Car car) {
+        // Define the folder base path
+        String baseFolder = "C:\\Users\\tudy1\\OneDrive\\Desktop\\car-rental-project\\carRental\\src\\main\\resources\\static\\photos";
+
+        // Create folder name using car ID and name
+        String folderName = car.getId() + "_" + car.getName().replaceAll("\\s+", "_"); // Replace spaces with underscores
+        String folderPath = Paths.get(baseFolder, folderName).toString();
 
         // Create the directory if it does not exist
-        File directory = new File(folder);
+        File directory = new File(folderPath);
         if (!directory.exists()) {
             directory.mkdirs(); // Create the directory structure
         }
+
+        // Create the file path for the photo
+        String fileName = photo.getOriginalFilename();
+        Path filePath = Paths.get(folderPath, fileName);
 
         try {
             // Save the uploaded file
@@ -71,14 +84,48 @@ public class CarController {
         }
 
         // Return the path to save in the database
-        return "/photos/" + fileName;
+        return "/photos/" + folderName + "/" + fileName; // Updated path to reflect folder structure
     }
+
 
     @GetMapping("/{id}")
     public String getCarDetails(@PathVariable("id") int id, Model model) {
-        Car car = carService.findCarById(id); // Make sure you have this method in your CarService
+        Car car = carService.findCarById(id);
+        if (car == null) {
+            model.addAttribute("errorMessage", "Car not found");
+            return "error-page";
+        }
+        List<Photo> photos = car.getPhotos(); // Retrieve photos associated with the car
+
         model.addAttribute("car", car);
-        return "car-details"; // This should be the name of your car details HTML template
+        model.addAttribute("photos", photos); // Add the photos to the model
+
+        return "car-details";
+    }
+
+
+    // car form
+    @GetMapping("/addCarPhotos/{id}")
+    public String addCarPhotosPage(@PathVariable("id") Integer id, Model model) {
+        Car car = carService.findCarById(id);
+        model.addAttribute("car", car);
+        return "add-car-photo-page";
+    }
+
+    @PostMapping("/addCarPhotos/{id}")
+    public String addCarPhotos(@PathVariable("id") Integer id, @RequestParam(value = "photos", required = false) MultipartFile[] photos) {
+        Car car = carService.findCarById(id);
+
+        for (MultipartFile photo : photos) {
+            if (photo != null && !photo.isEmpty()) {
+                String photoUrl = savePhoto(photo, car);//also get the url
+
+                Photo picture =new Photo(photoUrl, car);
+                photoService.savePhoto(picture);
+            }
+        }
+
+        return "redirect:/";
     }
 
 
