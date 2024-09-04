@@ -31,6 +31,26 @@
     <p><strong>City:</strong> <span th:text="${user.userDetail.city}"></span></p>
     <p><strong>Country:</strong> <span th:text="${user.userDetail.country}"></span></p>
     <p><strong>Role:</strong> <span th:text="${user.getRoles()}"></span></p>
+    <!-- Owned Cars Section -->
+
+    <h3 sec:authorize="hasAnyRole('SELLER', 'ADMIN')">Owned Cars</h3>
+    <div class="car-list" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">
+        <div th:if="${not #lists.isEmpty(ownedCars)}">
+            <div class="car-item" th:each="car : ${ownedCars}">
+                <img th:src="${car.photoUrl}" alt="Car Image" style="max-width: 100%; height: auto;">
+                <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
+                <p>Year: <span th:text="${car.year}"></span></p>
+                <p>Seats: <span th:text="${car.seats}"></span></p>
+                <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
+                <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
+                <p class="price" th:text="'$' + ${car.price}"></p>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(ownedCars)}" class="list-group-item">
+            No owned cars found.
+        </div>
+    </div>
+
     <!-- Rented Cars Section -->
     <h3>Rented Cars</h3>
     <div class="car-list">

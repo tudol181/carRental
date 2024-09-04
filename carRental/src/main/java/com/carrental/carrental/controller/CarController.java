@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/car")
@@ -29,22 +30,25 @@ public class CarController {
     }
 
     @GetMapping("/addCar")
-    public String addCar(Model model) {
+    public String addCar(Model model, Principal principal) {
         model.addAttribute("car", new Car());
         return "add-car";
     }
 
     @PostMapping("/addCar")
-    public String addCar(@Valid @ModelAttribute("car") Car car, BindingResult carBindingResult, @RequestParam("photo") MultipartFile photo, Model model) {
+    public String addCar(@Valid @ModelAttribute("car") Car car, BindingResult carBindingResult, @RequestParam("photo") MultipartFile photo, Model model, Principal principal) {
         if(carBindingResult.hasErrors()) {
             return "add-car";
         }
 
         String photoPath = savePhoto(photo);
         car.setPhotoUrl(photoPath);
+        car.setOwner(userService.getUserByUsername(principal.getName()));
 
         carService.saveCar(car);
-        return "/";
+        userService.getUserByUsername(principal.getName()).addCar(car);
+        userService.updateUser(userService.getUserByUsername(principal.getName()));
+        return "redirect:/";
     }
 
     private String savePhoto(MultipartFile photo) {

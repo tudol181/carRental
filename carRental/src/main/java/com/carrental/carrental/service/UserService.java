@@ -63,4 +63,9 @@ public class UserService {
     public void addCar(User user, Car car) {
         userDAO.addCar(user, car);
     }
+
+    public List<Car> getOwnedCars(User user) {
+        return userDAO.getOwnedCars(user);
+    }
+
 }

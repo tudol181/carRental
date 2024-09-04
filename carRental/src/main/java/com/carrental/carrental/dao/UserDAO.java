@@ -16,4 +16,5 @@ public interface UserDAO {
     User getUserByUsername(String username);
     List<User> getAllUsers();
     void addCar(User user, Car car);
+    List<Car> getOwnedCars(User user);
 }

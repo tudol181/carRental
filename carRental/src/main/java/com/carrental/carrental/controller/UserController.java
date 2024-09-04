@@ -31,9 +31,12 @@ public class UserController {
 
         User user = userService.getUserByUsername(username);
         List<Car> rentedCars = userService.getUsersCars(user.getId());
+        List<Car> ownedCars = userService.getOwnedCars(user);
 
         model.addAttribute("user", user);
         model.addAttribute("rentedCars", rentedCars);
+        model.addAttribute("ownedCars", ownedCars);
+
         return "user-page";
     }
 

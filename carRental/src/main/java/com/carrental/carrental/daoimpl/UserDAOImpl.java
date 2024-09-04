@@ -91,5 +91,14 @@ public class UserDAOImpl implements UserDAO {
         em.merge(user);
     }
 
+    @Override
+    public List<Car> getOwnedCars(User user) {
+        TypedQuery<Car> query = em.createQuery(
+                "SELECT c FROM Car c WHERE c.owner.id = :ownerId", Car.class);
+
+        query.setParameter("ownerId", user.getId());
+        return query.getResultList();
+    }
+
 
 }
