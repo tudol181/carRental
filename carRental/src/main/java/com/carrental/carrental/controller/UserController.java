@@ -72,6 +72,8 @@ public class UserController {
             // Retain the old password
             user.setPassword(currentUser.getPassword());
         }
+
+        user.setCars(currentUser.getCars());
         user.setEnabled(true);
         user.setRoles(userService.getUserById(currentUser.getId()).getRoles());
         userService.updateUser(user);

@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Ensure vertical alignment */
+    background-color: #444;
+    padding: 10px;
+}
+
+.nav a, .nav form {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 1.2em;
+    margin: 0 5px; /* Space between items */
+    display: inline-flex; /* Align form with links */
+    align-items: center; /* Vertical alignment */
+}
+
+.nav a:hover, .nav form input:hover {
+    background-color: #555;
+}
+
+.nav form {
+    border: none; /* Remove default form styling */
+}
+
+.nav input[type="submit"] {
+    background: none;
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-align: center;
+}
+
+.nav input[type="submit"]:hover {
+    background-color: #555;
+}
+
+.main-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.main-content h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+.main-content p {
+    font-size: 1.2em;
+    color: #666;
+}
+
+.car-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.car-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 15px;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.car-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.car-item h3 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.car-item p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.car-item .price {
+    font-size: 1.2em;
+    color: #008CBA;
+    font-weight: bold;
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

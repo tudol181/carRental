@@ -85,5 +85,11 @@ public class UserDAOImpl implements UserDAO {
         return em.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
+    @Override
+    public void addCar(User user, Car car) {
+        user.addCar(car);
+        em.merge(user);
+    }
+
 
 }

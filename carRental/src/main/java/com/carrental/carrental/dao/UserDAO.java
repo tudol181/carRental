@@ -15,4 +15,5 @@ public interface UserDAO {
     boolean checkUsername(String username);
     User getUserByUsername(String username);
     List<User> getAllUsers();
+    void addCar(User user, Car car);
 }

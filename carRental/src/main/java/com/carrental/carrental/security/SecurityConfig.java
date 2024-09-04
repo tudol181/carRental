@@ -17,13 +17,13 @@ public class SecurityConfig {
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
-        // Find users by user_name as the username
+        // username - username password - password
         jdbcUserDetailsManager.setUsersByUsernameQuery(
                 "SELECT user_name AS username, password, enabled FROM user WHERE user_name = ?"
         );
 
 
-        // Find authorities by user_name as the username
+        // authorities - role
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
                 "SELECT u.user_name AS username, r.role_name AS authority " +
                         "FROM user_roles ur " +
@@ -42,7 +42,8 @@ public class SecurityConfig {
                                         .requestMatchers("/").permitAll()
                                         .requestMatchers("/login").permitAll()
                                         .requestMatchers("/register").permitAll()
-                                        .requestMatchers("/admin/**").hasRole("SELLER")
+                                        .requestMatchers("/styles.css").permitAll()
+                                        .requestMatchers("/admin/**").hasAnyRole("SELLER", "ADMIN")
 //                                .requestMatchers("leaders/**").hasRole("MANAGER")
 //                                .requestMatchers("/systems/**").hasRole("ADMIN")
                                         .anyRequest().authenticated()

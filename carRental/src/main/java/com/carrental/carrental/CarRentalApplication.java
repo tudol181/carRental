@@ -30,8 +30,8 @@ public class CarRentalApplication {
         return runner -> {
             try {
                 User user = userService.getUserById(24);
-                user.setEnabled(true);
-                userService.updateUser(user);
+                Car car= carService.findCarById(1);
+//                userService.addCar(user, car);
                 // Save the user with the new role
                 System.out.println(user);
             } catch (Exception e) {

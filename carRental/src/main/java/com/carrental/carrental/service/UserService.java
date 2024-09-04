@@ -58,4 +58,9 @@ public class UserService {
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
     }
+
+    @Transactional
+    public void addCar(User user, Car car) {
+        userDAO.addCar(user, car);
+    }
 }
