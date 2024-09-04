@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -29,8 +30,49 @@ public class AppController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
+            @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
+            @RequestParam(value = "minSeats", required = false) Integer minSeats,
+            @RequestParam(value = "maxSeats", required = false) Integer maxSeats,
+            Model model) {
+
+        // Retrieve all cars
         List<Car> cars = carService.findAllCars();
+
+        // Filter cars based on criteria
+        if (search != null && !search.isEmpty()) {
+            cars = cars.stream()
+                    .filter(car -> car.getName().toLowerCase().contains(search.toLowerCase()))
+                    .toList();
+        }
+
+        if (minPrice != null) {
+            cars = cars.stream()
+                    .filter(car -> car.getPrice().compareTo(minPrice) >= 0)
+                    .toList();
+        }
+
+        if (maxPrice != null) {
+            cars = cars.stream()
+                    .filter(car -> car.getPrice().compareTo(maxPrice) <= 0)
+                    .toList();
+        }
+
+        if (minSeats != null) {
+            cars = cars.stream()
+                    .filter(car -> car.getSeats() >= minSeats)
+                    .toList();
+        }
+
+        if (maxSeats != null) {
+            cars = cars.stream()
+                    .filter(car -> car.getSeats() <= maxSeats)
+                    .toList();
+        }
+
+        // Add the filtered cars to the model
         model.addAttribute("cars", cars);
         return "home";
     }

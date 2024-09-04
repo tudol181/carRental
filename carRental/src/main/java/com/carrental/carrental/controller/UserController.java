@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/user")
@@ -42,11 +43,11 @@ public class UserController {
 
     @GetMapping("/edit-profile")
     public String showEditProfileForm(Principal principal, Model model) {
-        // Get the currently authenticated user
+        // authenticated user
         String username = principal.getName();
         User currentUser = userService.getUserByUsername(username);
 
-        // Add the current user to the model to populate the edit form
+        //populate user form
         model.addAttribute("user", currentUser);
         return "edit-profile";
     }
@@ -55,24 +56,23 @@ public class UserController {
     public String editUserProfile(@Valid @ModelAttribute("user") User user,
                                   BindingResult bindingResult,
                                   Principal principal) {
-        // Get the currently authenticated user
+        // authenticated user
         String username = principal.getName();
         User currentUser = userService.getUserByUsername(username);
 
-        // Ensure the user is trying to edit their own profile
-        if (currentUser.getId() != user.getId()) {
-            return "redirect:/access-denied"; // Redirect if they are trying to edit another user's profile
+        if (!Objects.equals(currentUser.getId(), user.getId())) {
+            return "redirect:/edit-profile"; //  edit another user's profile
         }
 
         if (bindingResult.hasErrors()) {
-            return "edit-profile"; // Return to the form if there are validation errors
+            return "edit-profile"; // validation errors
         }
 
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
             String encodedPassword = "{noop}" + user.getPassword();
             user.setPassword(encodedPassword);
         } else {
-            // Retain the old password
+            // old password
             user.setPassword(currentUser.getPassword());
         }
 
@@ -81,7 +81,7 @@ public class UserController {
         user.setRoles(userService.getUserById(currentUser.getId()).getRoles());
         userService.updateUser(user);
 
-        return "redirect:/user/profile"; // Redirect to the profile page after successful update
+        return "redirect:/user/profile";
     }
 
 
