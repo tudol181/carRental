@@ -38,10 +38,10 @@ public class AppController {
             @RequestParam(value = "maxSeats", required = false) Integer maxSeats,
             Model model) {
 
-        // Retrieve all cars
+        // retrieve all cars
         List<Car> cars = carService.findAllCars();
 
-        // Filter cars based on criteria
+        // filter cars based on criteria
         if (search != null && !search.isEmpty()) {
             cars = cars.stream()
                     .filter(car -> car.getName().toLowerCase().contains(search.toLowerCase()))
@@ -72,13 +72,13 @@ public class AppController {
                     .toList();
         }
 
-        // Add the filtered cars to the model
+        // add filtered cars to the model
         model.addAttribute("cars", cars);
         return "home";
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login() {
         return "login";
     }
 
@@ -107,11 +107,6 @@ public class AppController {
 
         model.addAttribute("successMessage", "User registered successfully! Please log in.");
         return "login";
-    }
-
-    @GetMapping("/access-denied")
-    public String showAccessDenied() {
-        return "access-denied";
     }
 
 

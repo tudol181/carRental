@@ -55,17 +55,21 @@
         </div>
 
         <!-- Car List -->
+        <!-- Car List -->
         <div class="car-list" id="carList">
             <div class="car-item" th:each="car : ${cars}">
-                <img th:src="${car.photoUrl}" alt="Car Image">
-                <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
-                <p>Year: <span th:text="${car.year}"></span></p>
-                <p>Seats: <span th:text="${car.seats}"></span></p>
-                <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
-                <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
-                <p class="price" th:text="'$' + ${car.price}"></p>
+                <a th:href="@{/car/{id}(id=${car.id})}">
+                    <img th:src="${car.photoUrl}" alt="Car Image">
+                    <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
+                    <p>Year: <span th:text="${car.year}"></span></p>
+                    <p>Seats: <span th:text="${car.seats}"></span></p>
+                    <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
+                    <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
+                    <p class="price" th:text="'$' + ${car.price}"></p>
+                </a>
             </div>
         </div>
+
     </div>
 </div>
 

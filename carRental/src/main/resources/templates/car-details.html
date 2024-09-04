@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Details</title>
+    <link href="/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+<div class="header">
+    <h1>Car Details</h1>
+</div>
+
+<div class="nav">
+    <a href="#" th:href="@{/about}">About Us</a>
+    <a href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
+    <a href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
+    <a href="#" th:href="@{/user/profile}" sec:authorize="isAuthenticated()">User profile</a>
+    <a href="#" th:href="@{/admin}" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">Admin</a>
+    <a href="#" th:href="@{/car/addCar}" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">Add a car</a>
+
+    <form action="#" th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout" sec:authorize="isAuthenticated()">
+    </form>
+</div>
+
+<div class="car-details">
+    <img th:src="${car.photoUrl}" alt="Car Image" style="width: 100%; height: auto;"/>
+    <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
+    <p>Year: <span th:text="${car.year}"></span></p>
+    <p>Seats: <span th:text="${car.seats}"></span></p>
+    <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
+    <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
+    <p class="price" th:text="'$' + ${car.price}"></p>
+</div>
+<a href="#" th:href="@{/}">Back to Car List</a>
+
+</body>
+</html>

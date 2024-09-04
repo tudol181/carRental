@@ -179,3 +179,50 @@ body {
     bottom: 0;
     width: 100%;
 }
+.car-details {
+    max-width: 800px; /* Limit the width of the details section */
+    margin: 20px auto; /* Center the details section on the page */
+    padding: 20px;
+    background-color: #fff; /* White background for contrast */
+    border-radius: 5px; /* Slightly rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.car-details img {
+    width: 100%; /* Full width for the image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; /* Rounded corners for the image */
+}
+
+.car-details h3 {
+    color: #333; /* Dark color for the car name */
+    font-size: 2em; /* Larger font size for the name */
+    margin: 15px 0; /* Margin above and below the heading */
+}
+
+.car-details p {
+    font-size: 1.2em; /* Slightly larger font size for details */
+    color: #555; /* Grey color for text */
+    margin: 10px 0; /* Margin above and below paragraphs */
+}
+
+.car-details .price {
+    font-size: 1.5em; /* Larger font size for price */
+    color: #008CBA; /* Blue color for price to highlight it */
+    font-weight: bold; /* Bold font for emphasis */
+}
+
+.car-details a {
+    display: inline-block; /* Allow margin and padding */
+    margin-top: 20px; /* Space above the link */
+    padding: 10px 15px; /* Padding around the link */
+    background-color: #008CBA; /* Blue background */
+    color: white; /* White text color */
+    text-decoration: none; /* Remove underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.car-details a:hover {
+    background-color: #005f73; /* Darker blue on hover */
+}

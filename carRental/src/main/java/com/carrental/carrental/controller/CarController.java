@@ -74,5 +74,12 @@ public class CarController {
         return "/photos/" + fileName;
     }
 
+    @GetMapping("/{id}")
+    public String getCarDetails(@PathVariable("id") int id, Model model) {
+        Car car = carService.findCarById(id); // Make sure you have this method in your CarService
+        model.addAttribute("car", car);
+        return "car-details"; // This should be the name of your car details HTML template
+    }
+
 
 }
