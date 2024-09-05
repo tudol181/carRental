@@ -71,6 +71,12 @@
                     <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
                     <p class="price" th:text="'$' + ${car.price}"></p>
                 </a>
+
+                <div th:each="rental : ${rentals}" th:if="${rental.car.id == car.id}">
+                    <p><strong>Rented From:</strong> <span th:text="${rental.pickupDate}"></span>
+                        <strong> To:</strong> <span th:text="${rental.returnDate}"></span></p>
+                </div>
+
                 <form th:action="@{/car/{id}/remove-rented-car(id=${car.id})}" method="post" class="mt-3">
                     <button type="submit" class="btn btn-danger">Remove Rented Car</button>
                 </form>

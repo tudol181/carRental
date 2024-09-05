@@ -239,3 +239,13 @@ body {
     border: 2px solid #ddd; /* Optional: Add a border to the images */
     border-radius: 5px; /* Optional: Add rounded corners */
 }
+.rent-button{
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}

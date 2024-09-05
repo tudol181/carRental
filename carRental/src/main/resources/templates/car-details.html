@@ -34,12 +34,31 @@
     <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
     <p class="price" th:text="'$' + ${car.price}"></p>
 
+    <p th:if="${errorMessage}" style="color:red;" th:text="${errorMessage}"></p>
+
+    <!-- Display unavailable dates -->
+    <h4>Unavailable Dates:</h4>
+    <ul>
+        <li th:each="rental : ${rentals}">
+            <span th:text="'From ' + ${rental.pickupDate} + ' to ' + ${rental.returnDate}"></span>
+        </li>
+    </ul>
+
     <div sec:authorize="isAuthenticated()">
         <form th:action="@{'/car/' + ${car.id} + '/rent'}" method="post">
-            <button type="submit" th:if="${!isRented}">Rent This Car</button>
-            <p th:if="${isRented}">You have already rented this car.</p>
+            <!-- Pickup Date -->
+            <label for="pickupDate">Pickup Date:</label>
+            <input type="date" id="pickupDate" name="pickupDate" required>
+
+            <!-- Return Date -->
+            <label for="returnDate">Return Date:</label>
+            <input type="date" id="returnDate" name="returnDate" required>
+
+            <button type="submit" th:if="${!isRented}" class="rent-button">Rent This Car</button>
+            <p th:if="${isRented}">Car rented.</p>
         </form>
     </div>
+
 
 
     <!-- display all the car photos -->

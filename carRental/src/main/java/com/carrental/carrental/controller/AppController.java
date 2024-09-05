@@ -7,6 +7,7 @@ import com.carrental.carrental.service.CarService;
 import com.carrental.carrental.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -36,12 +38,14 @@ public class AppController {
             @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
             @RequestParam(value = "minSeats", required = false) Integer minSeats,
             @RequestParam(value = "maxSeats", required = false) Integer maxSeats,
+            @RequestParam(value = "pickupDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate pickupDate,
+            @RequestParam(value = "returnDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate returnDate,
             Model model) {
 
         // retrieve all cars
         List<Car> cars = carService.findAllCars();
 
-        // filter cars based on criteria
+        // filter cars based on search criteria
         if (search != null && !search.isEmpty()) {
             cars = cars.stream()
                     .filter(car -> car.getName().toLowerCase().contains(search.toLowerCase()))
@@ -69,6 +73,13 @@ public class AppController {
         if (maxSeats != null) {
             cars = cars.stream()
                     .filter(car -> car.getSeats() <= maxSeats)
+                    .toList();
+        }
+
+        // Filter cars based on pickup and return date
+        if (pickupDate != null && returnDate != null) {
+            cars = cars.stream()
+                    .filter(car -> carService.isAvailable(car, pickupDate, returnDate))
                     .toList();
         }
 

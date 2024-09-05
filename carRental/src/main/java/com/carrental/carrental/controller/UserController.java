@@ -1,7 +1,9 @@
 package com.carrental.carrental.controller;
 
 import com.carrental.carrental.entity.Car;
+import com.carrental.carrental.entity.Rental;
 import com.carrental.carrental.entity.User;
+import com.carrental.carrental.service.RentalService;
 import com.carrental.carrental.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +16,19 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
+    private final RentalService rentalService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RentalService rentalService) {
         this.userService = userService;
+        this.rentalService = rentalService;
     }
 
     @GetMapping("/profile")
@@ -33,11 +38,12 @@ public class UserController {
         User user = userService.getUserByUsername(username);
         List<Car> rentedCars = userService.getUsersCars(user.getId());
         List<Car> ownedCars = userService.getOwnedCars(user);
+        List<Rental> rentals = rentalService.findRentalsByUserId(user.getId());
 
         model.addAttribute("user", user);
         model.addAttribute("rentedCars", rentedCars);
         model.addAttribute("ownedCars", ownedCars);
-
+        model.addAttribute("rentals", rentals);
         return "user-page";
     }
 

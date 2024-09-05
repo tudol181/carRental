@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -58,5 +59,16 @@ public class CarImpl implements CarDAO {
     public List<Car> findAllCars() {
         TypedQuery<Car> query = em.createQuery("from Car", Car.class);
         return query.getResultList();
+    }
+
+    @Override
+    public boolean isAvailable(Car car, LocalDate pickupDate, LocalDate returnDate) {
+        TypedQuery<Long> query = em.createQuery("select count(*) from Rental where car.id =:carId and " +
+                "(:pickupDate <= returnDate and :returnDate >= pickupDate)", Long.class);
+        query.setParameter("carId", car.getId());
+        query.setParameter("pickupDate", pickupDate);
+        query.setParameter("returnDate", returnDate);
+
+        return query.getSingleResult() == 0;
     }
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Car Rental - Home</title>
-    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="header">
@@ -30,27 +30,36 @@
 
     <!-- Search Bar -->
     <form method="get" th:action="@{/}" class="search-bar" sec:authorize="isAuthenticated()">
-        <input type="text" name="search" placeholder="Search by name..." />
-        <input type="submit" value="Search" />
+        <input type="text" name="search" placeholder="Search by name..."/>
+        <input type="submit" value="Search"/>
+
+        <label for="pickupDate">Pickup Date:</label>
+        <input type="date" id="pickupDate" name="pickupDate">
+
+        <label for="returnDate">Return Date:</label>
+        <input type="date" id="returnDate" name="returnDate">
+
+        <input type="submit" value="Search">
+
     </form>
 
-    <div class="filter-and-list" >
+    <div class="filter-and-list">
         <div class="filter" sec:authorize="isAuthenticated()">
             <h3>Filter Cars</h3>
             <form method="get" th:action="@{/}">
                 <label for="minPrice">Min Price:</label>
-                <input type="number" id="minPrice" name="minPrice" placeholder="0" />
+                <input type="number" id="minPrice" name="minPrice" placeholder="0"/>
 
                 <label for="maxPrice">Max Price:</label>
-                <input type="number" id="maxPrice" name="maxPrice" placeholder="100000" />
+                <input type="number" id="maxPrice" name="maxPrice" placeholder="100000"/>
 
                 <label for="minSeats">Min Seats:</label>
-                <input type="number" id="minSeats" name="minSeats" placeholder="1" />
+                <input type="number" id="minSeats" name="minSeats" placeholder="1"/>
 
                 <label for="maxSeats">Max Seats:</label>
-                <input type="number" id="maxSeats" name="maxSeats" placeholder="10" />
+                <input type="number" id="maxSeats" name="maxSeats" placeholder="10"/>
 
-                <input type="submit" value="Filter" />
+                <input type="submit" value="Filter"/>
             </form>
         </div>
 
