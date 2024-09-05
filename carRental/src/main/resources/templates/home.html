@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Car Rental - Home</title>
-    <link href="/css/styles.css" rel="stylesheet"/>
+    <link href="/css/home.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="header">
@@ -39,8 +39,10 @@
         <label for="returnDate">Return Date:</label>
         <input type="date" id="returnDate" name="returnDate">
 
-        <input type="submit" value="Search">
-
+        <div class="sort-buttons">
+            <button type="submit" name="sort" value="priceAsc">Sort by Price: Low to High</button>
+            <button type="submit" name="sort" value="priceDesc">Sort by Price: High to Low</button>
+        </div>
     </form>
 
     <div class="filter-and-list">
@@ -74,8 +76,6 @@
                 <input type="hidden" name="pickupDate" th:value="${pickupDate}" />
                 <input type="hidden" name="returnDate" th:value="${returnDate}" />
 
-                <button type="submit" name="sort" value="priceAsc">Sort by Price: Low to High</button>
-                <button type="submit" name="sort" value="priceDesc">Sort by Price: High to Low</button>
             </form>
         </div>
 

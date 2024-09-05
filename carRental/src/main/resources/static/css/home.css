@@ -1,0 +1,281 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Ensure vertical alignment */
+    background-color: #444;
+    padding: 10px;
+}
+
+.nav a, .nav form {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 1.2em;
+    margin: 0 5px; /* Space between items */
+    display: inline-flex; /* Align form with links */
+    align-items: center; /* Vertical alignment */
+}
+
+.nav a:hover, .nav form input:hover {
+    background-color: #555;
+}
+
+.nav form {
+    border: none; /* Remove default form styling */
+}
+
+.nav input[type="submit"] {
+    background: none;
+    border: none;
+    color: white;
+    padding: 14px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-align: center;
+}
+
+.nav input[type="submit"]:hover {
+    background-color: #555;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+.main-content h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+.main-content p {
+    font-size: 1.2em;
+    color: #666;
+}
+
+.search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px;
+    margin-right: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filter-and-list {
+    display: flex; /* Display filter and list side by side */
+}
+
+.filter {
+    width: 100px;
+    background-color: #f8f8f8;
+    padding: 2px;
+    border-radius: 0px;
+    margin-right: 0px; /* Space between filter and list */
+}
+
+.filter input[type="text"],
+.filter input[type="number"] {
+    padding: 10px;
+    margin: 5px 0;
+    width: calc(100% - 22px); /* Full width with padding adjustment */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filter label {
+    display: block; /* Ensures labels are on separate lines */
+    margin-top: 10px;
+}
+
+.filter input[type="submit"] {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filter input[type="submit"]:hover {
+    background-color: #005f73;
+}
+
+/* Car Arrangement - Keeping from the First Style */
+.car-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the car items */
+    padding: 0;
+}
+
+.car-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 15px;
+    padding: 15px;
+    width: calc(30% - 30px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    text-align: center; /* Ensure the content is centered */
+}
+
+.car-item:hover {
+    transform: scale(1.05);
+}
+
+.car-item img {
+    max-width: 100%; /* Ensure image does not exceed container width */
+    height: auto;
+    border-radius: 5px;
+}
+
+.car-item h3 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.car-item p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.car-item .price {
+    font-size: 1.2em;
+    color: #008CBA;
+    font-weight: bold;
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.car-details {
+    max-width: 800px; /* Limit the width of the details section */
+    margin: 20px auto; /* Center the details section on the page */
+    padding: 20px;
+    background-color: #fff; /* White background for contrast */
+    border-radius: 5px; /* Slightly rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.car-details img {
+    width: 100%; /* Full width for the image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; /* Rounded corners for the image */
+}
+
+.car-details h3 {
+    color: #333; /* Dark color for the car name */
+    font-size: 2em; /* Larger font size for the name */
+    margin: 15px 0; /* Margin above and below the heading */
+}
+
+.car-details p {
+    font-size: 1.2em; /* Slightly larger font size for details */
+    color: #555; /* Grey color for text */
+    margin: 10px 0; /* Margin above and below paragraphs */
+}
+
+.car-details .price {
+    font-size: 1.5em; /* Larger font size for price */
+    color: #008CBA; /* Blue color for price to highlight it */
+    font-weight: bold; /* Bold font for emphasis */
+}
+
+.car-details a {
+    display: inline-block; /* Allow margin and padding */
+    margin-top: 20px; /* Space above the link */
+    padding: 10px 15px; /* Padding around the link */
+    background-color: #008CBA; /* Blue background */
+    color: white; /* White text color */
+    text-decoration: none; /* Remove underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.car-details a:hover {
+    background-color: #005f73; /* Darker blue on hover */
+}
+
+.photo-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adds spacing between images */
+}
+
+.photo-gallery-img {
+    width: 200px;   /* Set the desired width */
+    height: 150px;  /* Set the desired height */
+    object-fit: cover; /* Ensures the image covers the entire area without stretching */
+    border: 2px solid #ddd; /* Optional: Add a border to the images */
+    border-radius: 5px; /* Optional: Add rounded corners */
+}
+
+.rent-button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-bar input[type="text"],
+.search-bar input[type="date"],
+.search-bar .sort-buttons button {
+    margin-right: 10px; /* Space between elements */
+}
+
+.sort-buttons {
+    display: flex;
+}
+
+.sort-buttons button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.sort-buttons button:hover {
+    background-color: #0056b3;
+}
