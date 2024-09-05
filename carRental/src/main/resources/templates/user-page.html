@@ -6,7 +6,9 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/css/styles.css" rel="stylesheet"/>
+
+    <link href="/css/user-page.css" rel="stylesheet"/>
+<!--        <link href="/css/styles.css" rel="stylesheet"/>-->
 
 </head>
 <body>
@@ -37,13 +39,16 @@
     <div class="car-list" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">
         <div th:if="${not #lists.isEmpty(ownedCars)}">
             <div class="car-item" th:each="car : ${ownedCars}">
-                <img th:src="${car.photoUrl}" alt="Car Image" style="max-width: 100%; height: auto;">
-                <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
-                <p>Year: <span th:text="${car.year}"></span></p>
-                <p>Seats: <span th:text="${car.seats}"></span></p>
-                <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
-                <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
-                <p class="price" th:text="'$' + ${car.price}"></p>
+                <!-- Wrap the car item inside a link to the car's detail page -->
+                <a th:href="@{/car/{id}(id=${car.id})}" style="text-decoration: none; color: inherit;">
+                    <img th:src="${car.photoUrl}" alt="Car Image" style="max-width: 100%; height: auto;">
+                    <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
+                    <p>Year: <span th:text="${car.year}"></span></p>
+                    <p>Seats: <span th:text="${car.seats}"></span></p>
+                    <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
+                    <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
+                    <p class="price" th:text="'$' + ${car.price}"></p>
+                </a>
             </div>
         </div>
         <div th:if="${#lists.isEmpty(ownedCars)}" class="list-group-item">
@@ -56,21 +61,28 @@
     <div class="car-list">
         <div th:if="${not #lists.isEmpty(rentedCars)}">
             <div class="car-item" th:each="car : ${rentedCars}">
-                <img th:src="${car.photoUrl}" alt="Car Image" style="max-width: 100%; height: auto;">
-                <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
-                <p>Year: <span th:text="${car.year}"></span></p>
-                <p>Seats: <span th:text="${car.seats}"></span></p>
-                <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
-                <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
-                <p class="price" th:text="'$' + ${car.price}"></p>
+                <!-- Wrap the car item inside a link to the car's detail page -->
+                <a th:href="@{/car/{id}(id=${car.id})}" style="text-decoration: none; color: inherit;">
+                    <img th:src="${car.photoUrl}" alt="Car Image" style="max-width: 100%; height: auto;">
+                    <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
+                    <p>Year: <span th:text="${car.year}"></span></p>
+                    <p>Seats: <span th:text="${car.seats}"></span></p>
+                    <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
+                    <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
+                    <p class="price" th:text="'$' + ${car.price}"></p>
+                </a>
+                <form th:action="@{/car/{id}/remove-rented-car(id=${car.id})}" method="post" class="mt-3">
+                    <button type="submit" class="btn btn-danger">Remove Rented Car</button>
+                </form>
             </div>
         </div>
         <div th:if="${#lists.isEmpty(rentedCars)}" class="list-group-item">
             No rented cars found.
         </div>
     </div>
-    <a href="#" th:href="@{/user/edit-profile}" class="btn btn-primary">Edit Profile</a>
 
+    <a href="#" th:href="@{/user/edit-profile}" class="btn btn-primary">Edit Profile</a>
 </div>
+<script src="/js/script.js"></script>
 </body>
 </html>

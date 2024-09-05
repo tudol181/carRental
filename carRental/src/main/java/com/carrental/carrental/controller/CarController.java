@@ -2,6 +2,7 @@ package com.carrental.carrental.controller;
 
 import com.carrental.carrental.entity.Car;
 import com.carrental.carrental.entity.Photo;
+import com.carrental.carrental.entity.User;
 import com.carrental.carrental.service.CarService;
 import com.carrental.carrental.service.PhotoService;
 import com.carrental.carrental.service.UserService;
@@ -89,16 +90,23 @@ public class CarController {
 
 
     @GetMapping("/{id}")
-    public String getCarDetails(@PathVariable("id") int id, Model model) {
+    public String getCarDetails(@PathVariable("id") int id, Model model, Principal principal) {
         Car car = carService.findCarById(id);
         if (car == null) {
             model.addAttribute("errorMessage", "Car not found");
             return "error-page";
         }
-        List<Photo> photos = car.getPhotos(); // Retrieve photos associated with the car
+
+        if (principal != null) {
+            User currentUser = userService.getUserByUsername(principal.getName());
+            boolean isRented = currentUser.getCars().contains(car);
+            model.addAttribute("isRented", isRented);
+        }
+
+        List<Photo> photos = car.getPhotos(); // all car photos
 
         model.addAttribute("car", car);
-        model.addAttribute("photos", photos); // Add the photos to the model
+        model.addAttribute("photos", photos);
 
         return "car-details";
     }
@@ -128,5 +136,40 @@ public class CarController {
         return "redirect:/";
     }
 
+    @PostMapping("/{id}/rent")
+    public String rentCar(@PathVariable("id") int id, Principal principal) {
+        // get the user
+        User user = userService.getUserByUsername(principal.getName());
+
+        // car by id
+        Car car = carService.findCarById(id);
+        if (car == null) {
+            return "redirect:/car/" + id + "?error=CarNotFound";
+        }
+
+        // add car to user
+        user.addCar(car);
+        userService.updateUser(user); // update
+
+        return "redirect:/car/" + id + "?success=CarRented"; // redirect
+    }
+
+    @PostMapping("/{id}/remove-rented-car")
+    public String removeRentedCar(@PathVariable("id") int id, Principal principal) {
+        // Get the user
+        User user = userService.getUserByUsername(principal.getName());
+
+        // Find the car by id
+        Car car = carService.findCarById(id);
+        if (car == null) {
+            return "redirect:/car/" + id + "?error=CarNotFound";
+        }
+
+        // Remove the car from the user's rented cars
+        user.removeCar(car);  // Assuming you have a `removeCar` method in the `User` entity
+        userService.updateUser(user);  // Update the user
+
+        return "redirect:/user/profile";  // Redirect to the user's profile after removal
+    }
 
 }

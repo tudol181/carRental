@@ -55,7 +55,6 @@
         </div>
 
         <!-- Car List -->
-        <!-- Car List -->
         <div class="car-list" id="carList">
             <div class="car-item" th:each="car : ${cars}">
                 <a th:href="@{/car/{id}(id=${car.id})}">
@@ -72,6 +71,6 @@
 
     </div>
 </div>
-
+<script src="/js/script.js"></script>
 </body>
 </html>

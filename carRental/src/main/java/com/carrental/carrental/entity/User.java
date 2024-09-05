@@ -99,6 +99,12 @@ public class User {
         cars.add(car);
     }
 
+    //remove car from user
+    public void removeCar(Car car) {
+        cars.remove(car);
+    }
+
+
     public void addOwnerCar(Car car) {
         if (ownedCars == null) {
             ownedCars = new ArrayList<>();

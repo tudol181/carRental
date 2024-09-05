@@ -34,6 +34,14 @@
     <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
     <p class="price" th:text="'$' + ${car.price}"></p>
 
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{'/car/' + ${car.id} + '/rent'}" method="post">
+            <button type="submit" th:if="${!isRented}">Rent This Car</button>
+            <p th:if="${isRented}">You have already rented this car.</p>
+        </form>
+    </div>
+
+
     <!-- display all the car photos -->
     <h3>Additional Photos:</h3>
     <div class="photo-gallery">
