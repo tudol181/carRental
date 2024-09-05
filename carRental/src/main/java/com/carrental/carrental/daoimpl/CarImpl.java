@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class CarImpl implements CarDAO {
@@ -70,5 +72,12 @@ public class CarImpl implements CarDAO {
         query.setParameter("returnDate", returnDate);
 
         return query.getSingleResult() == 0;
+    }
+
+    @Override
+    public List<Car> sortCarsByPrice(List<Car> cars, boolean ascending) {
+        return cars.stream()
+                .sorted(ascending ? Comparator.comparing(Car::getPrice) : Comparator.comparing(Car::getPrice).reversed())
+                .collect(Collectors.toList());
     }
 }

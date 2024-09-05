@@ -45,8 +45,12 @@ public class CarService {
         carDAO.updateCar(car);
     }
 
-    public boolean isAvailable(Car car, LocalDate pickupDate, LocalDate returnDate){
+    public boolean isAvailable(Car car, LocalDate pickupDate, LocalDate returnDate) {
         return carDAO.isAvailable(car, pickupDate, returnDate);
+    }
+
+    public List<Car> sortCarsByPrice(List<Car> cars, boolean ascending) {
+        return carDAO.sortCarsByPrice(cars, ascending);
     }
 
 }

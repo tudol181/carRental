@@ -63,6 +63,22 @@
             </form>
         </div>
 
+        <div class="sort-buttons">
+            <form method="get" th:action="@{/}">
+                <!-- Keep the existing search/filter parameters if necessary -->
+                <input type="hidden" name="search" th:value="${search}" />
+                <input type="hidden" name="minPrice" th:value="${minPrice}" />
+                <input type="hidden" name="maxPrice" th:value="${maxPrice}" />
+                <input type="hidden" name="minSeats" th:value="${minSeats}" />
+                <input type="hidden" name="maxSeats" th:value="${maxSeats}" />
+                <input type="hidden" name="pickupDate" th:value="${pickupDate}" />
+                <input type="hidden" name="returnDate" th:value="${returnDate}" />
+
+                <button type="submit" name="sort" value="priceAsc">Sort by Price: Low to High</button>
+                <button type="submit" name="sort" value="priceDesc">Sort by Price: High to Low</button>
+            </form>
+        </div>
+
         <!-- Car List -->
         <div class="car-list" id="carList">
             <div class="car-item" th:each="car : ${cars}">

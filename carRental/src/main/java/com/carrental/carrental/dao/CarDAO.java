@@ -14,4 +14,5 @@ public interface CarDAO {
     void updateCar(Car car);
     List<Car> findAllCars();
     boolean isAvailable(Car car, LocalDate pickupDate, LocalDate returnDate);
+    List<Car> sortCarsByPrice(List<Car> cars, boolean ascending);
 }

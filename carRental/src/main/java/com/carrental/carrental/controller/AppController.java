@@ -40,6 +40,7 @@ public class AppController {
             @RequestParam(value = "maxSeats", required = false) Integer maxSeats,
             @RequestParam(value = "pickupDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate pickupDate,
             @RequestParam(value = "returnDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate returnDate,
+            @RequestParam(value = "sort", required = false) String sort,
             Model model) {
 
         // retrieve all cars
@@ -76,13 +77,19 @@ public class AppController {
                     .toList();
         }
 
-        // Filter cars based on pickup and return date
+        //pickup and return date
         if (pickupDate != null && returnDate != null) {
             cars = cars.stream()
                     .filter(car -> carService.isAvailable(car, pickupDate, returnDate))
                     .toList();
         }
-
+        if (sort != null) {
+            if (sort.equals("priceAsc")) {
+                cars = carService.sortCarsByPrice(cars, true); // Sort ascending
+            } else if (sort.equals("priceDesc")) {
+                cars = carService.sortCarsByPrice(cars, false); // Sort descending
+            }
+        }
         // add filtered cars to the model
         model.addAttribute("cars", cars);
         return "home";
