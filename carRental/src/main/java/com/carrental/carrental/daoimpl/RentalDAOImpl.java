@@ -2,6 +2,7 @@ package com.carrental.carrental.daoimpl;
 
 import com.carrental.carrental.dao.RentalDAO;
 import com.carrental.carrental.entity.Rental;
+import com.carrental.carrental.entity.RentalId;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.NoResultException;
@@ -23,7 +24,16 @@ public class RentalDAOImpl implements RentalDAO {
 
     @Override
     public void saveRental(Rental rental) {
+//        em.refresh(rental);
         em.persist(rental);
+    }
+
+    @Override
+    public void updateRental(Rental rental) {
+//        rental.getUser().addCar(rental.getCar());
+//        rental.getCar().addUser(rental.getUser());
+//        em.refresh(rental);
+        em.merge(rental);
     }
 
     @Override
@@ -62,5 +72,18 @@ public class RentalDAOImpl implements RentalDAO {
         query.setParameter("id", id);
 
         return query.getResultList();
+    }
+
+    @Override
+    public List<Rental> getAllRentals() {
+        TypedQuery<Rental> query = em.createQuery(
+                "SELECT r FROM Rental r", Rental.class);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public Rental findRentalById(RentalId id) {
+        return em.find(Rental.class, id);
     }
 }

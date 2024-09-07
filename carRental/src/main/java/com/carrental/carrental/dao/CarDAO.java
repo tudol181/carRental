@@ -2,6 +2,7 @@ package com.carrental.carrental.dao;
 
 import com.carrental.carrental.entity.Car;
 import com.carrental.carrental.entity.Review;
+import com.carrental.carrental.entity.User;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,4 +17,6 @@ public interface CarDAO {
     boolean isAvailable(Car car, LocalDate pickupDate, LocalDate returnDate);
     List<Car> sortCarsByPrice(List<Car> cars, boolean ascending);
     void deleteCar(int id);
+    List<User> findRentersByCarId(int id);
+
 }

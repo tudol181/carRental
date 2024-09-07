@@ -1,9 +1,12 @@
 package com.carrental.carrental.controller;
 
 import com.carrental.carrental.entity.Car;
+import com.carrental.carrental.entity.Rental;
 import com.carrental.carrental.entity.User;
 import com.carrental.carrental.service.CarService;
+import com.carrental.carrental.service.RentalService;
 import com.carrental.carrental.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +19,13 @@ import java.util.List;
 public class AdminController {
     private final CarService carService;
     private final UserService userService;
+    private final RentalService rentalService;
 
     @Autowired
-    public AdminController(CarService carService, UserService userService) {
+    public AdminController(CarService carService, UserService userService, RentalService rentalService) {
         this.carService = carService;
         this.userService = userService;
+        this.rentalService = rentalService;
     }
 
     @GetMapping("")
@@ -133,7 +138,46 @@ public class AdminController {
 
         Car existingCar = carService.findCarById(car.getId());
 
+        // Retain old values if the new values are empty
+        if (car.getOwner() == null) {
+            car.setOwner(existingCar.getOwner());
+        }
+        if (car.getName() == null || car.getName().isEmpty()) {
+            car.setName(existingCar.getName());
+        }
+        if (car.getModel() == null || car.getModel().isEmpty()) {
+            car.setModel(existingCar.getModel());
+        }
+        if (car.getYear() == null) {
+            car.setYear(existingCar.getYear());
+        }
+        if (car.getSeats() == null) {
+            car.setSeats(existingCar.getSeats());
+        }
+        if (car.getCapacity() == null) {
+            car.setCapacity(existingCar.getCapacity());
+        }
+        if (car.getMinimumDriverAge() == null) {
+            car.setMinimumDriverAge(existingCar.getMinimumDriverAge());
+        }
+        if (car.getPrice() == null) {
+            car.setPrice(existingCar.getPrice());
+        }
+        if (car.getPhotoUrl() == null || car.getPhotoUrl().isEmpty()) {
+            car.setPhotoUrl(existingCar.getPhotoUrl());
+        }
+
+        //retain the old values for rental table
         carService.updateCar(car);
+//        List<Rental> rentals = rentalService.findRentalsByCarId(existingCar.getId());
+//        for (Rental rental : rentals) {
+//            try {
+//                System.out.println("Updating rental: " + rental);
+//                rentalService.updateRental(rental);
+//            } catch (EntityNotFoundException e) {
+//                System.err.println("Rental entry not found: " + e.getMessage());
+//            }
+//        }
         return "redirect:/admin";
     }
 

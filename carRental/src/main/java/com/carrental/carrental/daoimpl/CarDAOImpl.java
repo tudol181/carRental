@@ -5,7 +5,6 @@ import com.carrental.carrental.entity.Car;
 import com.carrental.carrental.entity.Review;
 import com.carrental.carrental.entity.User;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Table;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,12 +16,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class CarImpl implements CarDAO {
+public class CarDAOImpl implements CarDAO {
 
     private EntityManager em;
 
     @Autowired
-    public CarImpl(EntityManager em) {
+    public CarDAOImpl(EntityManager em) {
         this.em = em;
     }
 
@@ -85,5 +84,12 @@ public class CarImpl implements CarDAO {
     public void deleteCar(int id) {
         Car car = findCarById(id);
         em.remove(car);
+    }
+
+    @Override
+    public List<User> findRentersByCarId(int id) {
+        TypedQuery<User> query = em.createQuery("select r.user from Rental r where r.car.id =:id", User.class);
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 }

@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PhotoImpl implements PhotoDAO {
+public class PhotoDAOImpl implements PhotoDAO {
     EntityManager entityManager;
 
     @Autowired
-    public PhotoImpl(EntityManager entityManager) {
+    public PhotoDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

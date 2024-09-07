@@ -59,7 +59,7 @@ public class Car {
     private User owner;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "rental",
             joinColumns = @JoinColumn(name = "car_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -104,11 +104,12 @@ public class Car {
      *
      * @param user user that rents the acr
      */
-    public void addStudent(User user) {
+    public void addUser(User user) {
         if (users == null) {
             users = new ArrayList<>();
         }
         users.add(user);
+        //user.getCars().add(this);
     }
 
     public void addPhoto(Photo photo) {

@@ -9,12 +9,12 @@ import java.time.LocalDate;
 public class Rental {
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     private Car car;
 
@@ -34,6 +34,7 @@ public class Rental {
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
     }
+
 
     public User getUser() {
         return user;
@@ -66,4 +67,15 @@ public class Rental {
     public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
+
+    @Override
+    public String toString() {
+        return "Rental{" +
+                "user=" + user.getId() +
+                ", car=" + car.getId() +
+                ", pickupDate=" + pickupDate +
+                ", returnDate=" + returnDate +
+                '}';
+    }
+
 }

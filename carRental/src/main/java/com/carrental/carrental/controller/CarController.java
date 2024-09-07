@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -109,6 +110,7 @@ public class CarController {
             User currentUser = userService.getUserByUsername(principal.getName());
             boolean isRented = currentUser.getCars().contains(car);
             model.addAttribute("isRented", isRented);
+            model.addAttribute("currentUserId", currentUser.getId());
         }
 
         List<Photo> photos = car.getPhotos(); // all car photos
@@ -140,7 +142,7 @@ public class CarController {
             if (photo != null && !photo.isEmpty()) {
                 String photoUrl = savePhoto(photo, car);//also get the url
 
-                Photo picture =new Photo(photoUrl, car);
+                Photo picture = new Photo(photoUrl, car);
                 photoService.savePhoto(picture);
             }
         }
@@ -192,6 +194,66 @@ public class CarController {
         userService.updateUser(user);  // Update the user
 
         return "redirect:/user/profile";  // Redirect to the user's profile after removal
+    }
+
+    @PostMapping("/delete")
+    public String deleteCar(@RequestParam("id") int id, Principal principal, RedirectAttributes redirectAttributes) {
+        Car car = carService.findCarById(id);
+        if (car == null || !car.getOwner().getUserName().equals(principal.getName())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Car not found or you do not have permission to delete it.");
+            return "redirect:/error"; // Redirect if car not found or not the owner
+        }
+
+        carService.deleteCar(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Car deleted successfully.");
+        return "redirect:/user/profile"; // Redirect to the user's profile after deletion
+    }
+
+    @GetMapping("/showCarFormForUpdate")
+    public String showCarFormForUpdateGET(@RequestParam("id") int id,
+                                          Model model) {
+
+        // get the car
+        Car car = carService.findCarById(id);
+        // prepopulate with car info
+        model.addAttribute("car", car);
+
+        // send over to our form
+        return "seller-edit-file";
+    }
+
+
+    @PostMapping("/showCarFormForUpdate")
+    public String showCarFormForUpdate(@RequestParam("id") int id,
+                                       Model model) {
+
+        // get the employee from the service
+        Car car = carService.findCarById(id);
+
+        // set employee as a model attribute to pre-populate the form
+        model.addAttribute("car", car);
+
+        // send over to our form
+        return "seller-edit-file";
+    }
+
+    @PostMapping("/saveCar")
+    public String saveCar(@ModelAttribute("car") Car car) {
+
+        Car existingCar = carService.findCarById(car.getId());
+        System.out.println(car);
+        existingCar.setName(car.getName());
+        existingCar.setModel(car.getModel());
+        existingCar.setYear(car.getYear());
+        existingCar.setYear(car.getYear());
+        existingCar.setSeats(car.getSeats());
+        existingCar.setCapacity(car.getCapacity());
+        existingCar.setMinimumDriverAge(car.getMinimumDriverAge());
+        existingCar.setPrice(car.getPrice());
+        existingCar.setPhotoUrl(car.getPhotoUrl());
+        carService.updateCar(existingCar);
+
+        return "redirect:/user/profile";
     }
 
 }

@@ -59,7 +59,15 @@
         </form>
     </div>
 
-
+    <!-- Edit and Delete Buttons for Car Owner -->
+    <div sec:authorize="isAuthenticated()">
+        <div th:if="${car.owner.id == currentUserId}">
+        <a th:href="@{/car/showCarFormForUpdate(id=${car.id})}" class="btn btn-warning">Edit Car</a>
+            <form th:action="@{/car/delete(id=${car.id})}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this car?');">Delete Car</button>
+            </form>
+        </div>
+    </div>
 
     <!-- display all the car photos -->
     <h3>Additional Photos:</h3>

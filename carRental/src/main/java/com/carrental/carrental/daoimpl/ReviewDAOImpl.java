@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ReviewImpl implements ReviewDAO {
+public class ReviewDAOImpl implements ReviewDAO {
     private EntityManager em;
 
     @Autowired
-    public ReviewImpl(EntityManager em) {
+    public ReviewDAOImpl(EntityManager em) {
         this.em = em;
     }
 

@@ -2,6 +2,7 @@ package com.carrental.carrental.service;
 
 import com.carrental.carrental.dao.RentalDAO;
 import com.carrental.carrental.entity.Rental;
+import com.carrental.carrental.entity.RentalId;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,15 @@ public class RentalService {
 
     public List<Rental> findRentalsByUserId(int id){
         return rentalDAO.findRentalsByUserId(id);
+    }
+
+    @Transactional
+    public void updateRental(Rental rental){
+        rentalDAO.updateRental(rental);
+    }
+
+    public Rental findRentalById(RentalId id){
+        return rentalDAO.findRentalById(id);
     }
 
 }

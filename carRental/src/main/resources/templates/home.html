@@ -162,25 +162,45 @@
         <p>Choose from our wide selection of vehicles to find the perfect match for your journey.</p>
     </div>
 
-    <!-- Search Bar -->
-    <form class="row g-3 mb-4 align-items-end search-bar" method="get" th:action="@{/}" sec:authorize="isAuthenticated()">
-        <div class="col-md-4">
-            <input type="text" class="form-control" name="search" placeholder="Search by name...">
-        </div>
-        <div class="col-md-3">
-            <label for="pickupDate" class="form-label">Pickup Date:</label>
-            <input type="date" class="form-control" id="pickupDate" name="pickupDate">
-        </div>
-        <div class="col-md-3">
-            <label for="returnDate" class="form-label">Return Date:</label>
-            <input type="date" class="form-control" id="returnDate" name="returnDate">
-        </div>
-        <div class="col-md-2 d-grid">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </form>
+    <!-- Search and Filter Section -->
+    <div class="mb-4">
+        <form class="row g-3 align-items-end search-bar" method="get" th:action="@{/}" sec:authorize="isAuthenticated()">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="search" placeholder="Search by name...">
+            </div>
+            <div class="col-md-3">
+                <label for="pickupDate" class="form-label">Pickup Date:</label>
+                <input type="date" class="form-control" id="pickupDate" name="pickupDate">
+            </div>
+            <div class="col-md-3">
+                <label for="returnDate" class="form-label">Return Date:</label>
+                <input type="date" class="form-control" id="returnDate" name="returnDate">
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
 
-    <!-- Filter and Sort Section -->
+        <!-- Sort Section -->
+        <form method="get" th:action="@{/}" class="mb-3">
+            <!-- Keep the existing search/filter parameters if necessary -->
+            <input type="hidden" name="search" th:value="${search}" />
+            <input type="hidden" name="minPrice" th:value="${minPrice}" />
+            <input type="hidden" name="maxPrice" th:value="${maxPrice}" />
+            <input type="hidden" name="minSeats" th:value="${minSeats}" />
+            <input type="hidden" name="maxSeats" th:value="${maxSeats}" />
+            <input type="hidden" name="pickupDate" th:value="${pickupDate}" />
+            <input type="hidden" name="returnDate" th:value="${returnDate}" />
+
+            <div class="d-flex justify-content-between mt-3">
+                <button type="submit" name="sort" value="priceAsc" class="btn btn-secondary me-2">Sort by Price: Low to High</button>
+                <button type="submit" name="sort" value="priceDesc" class="btn btn-secondary">Sort by Price: High to Low</button>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- Filter -->
     <div class="row">
         <div class="col-md-3" sec:authorize="isAuthenticated()">
             <div class="filter mb-4">
@@ -188,19 +208,19 @@
                 <form method="get" th:action="@{/}">
                     <div class="mb-3">
                         <label for="minPrice" class="form-label">Min Price:</label>
-                        <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="0">
+                        <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="0" min="0">
                     </div>
                     <div class="mb-3">
                         <label for="maxPrice" class="form-label">Max Price:</label>
-                        <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="100000">
+                        <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="100000" min="0">
                     </div>
                     <div class="mb-3">
                         <label for="minSeats" class="form-label">Min Seats:</label>
-                        <input type="number" class="form-control" id="minSeats" name="minSeats" placeholder="1">
+                        <input type="number" class="form-control" id="minSeats" name="minSeats" placeholder="1" min="1">
                     </div>
                     <div class="mb-3">
                         <label for="maxSeats" class="form-label">Max Seats:</label>
-                        <input type="number" class="form-control" id="maxSeats" name="maxSeats" placeholder="10">
+                        <input type="number" class="form-control" id="maxSeats" name="maxSeats" placeholder="10" min="1">
                     </div>
                     <button type="submit" class="btn btn-secondary">Filter</button>
                 </form>

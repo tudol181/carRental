@@ -3,6 +3,7 @@ package com.carrental.carrental.service;
 import com.carrental.carrental.dao.CarDAO;
 import com.carrental.carrental.entity.Car;
 import com.carrental.carrental.entity.Review;
+import com.carrental.carrental.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,5 +57,9 @@ public class CarService {
     @Transactional
     public void deleteCar(int id){
         carDAO.deleteCar(id);
+    }
+
+    public List<User> findRentersByCarId(int id) {
+        return carDAO.findRentersByCarId(id);
     }
 }
