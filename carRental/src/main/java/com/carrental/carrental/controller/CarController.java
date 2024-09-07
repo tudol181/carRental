@@ -25,6 +25,7 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -216,7 +217,7 @@ public class CarController {
 
         // get the car
         Car car = carService.findCarById(id);
-        if (car.getOwner().getId() != userService.getUserByUsername(principal.getName()).getId()) {
+        if (!Objects.equals(car.getOwner().getId(), userService.getUserByUsername(principal.getName()).getId())) {
             // Redirect or show error message
             return "redirect:/error"; // Redirect to an error page or show a message
         }
@@ -236,7 +237,7 @@ public class CarController {
         // get the employee from the service
         Car car = carService.findCarById(id);
 
-        if (car.getOwner().getId() != userService.getUserByUsername(principal.getName()).getId()) {
+        if (!Objects.equals(car.getOwner().getId(), userService.getUserByUsername(principal.getName()).getId())) {
             // Redirect or show error message
             return "redirect:/error"; // Redirect to an error page or show a message
         }
@@ -249,8 +250,12 @@ public class CarController {
     }
 
     @PostMapping("/saveCar")
-    public String saveCar(@ModelAttribute("car") Car car) {
-
+    public String saveCar(@ModelAttribute("car") Car car,
+                          Principal principal) {
+        if (!Objects.equals(car.getOwner().getId(), userService.getUserByUsername(principal.getName()).getId())) {
+            // Redirect or show error message
+            return "redirect:/error"; // Redirect to an error page or show a message
+        }
         Car existingCar = carService.findCarById(car.getId());
         System.out.println(car);
         existingCar.setName(car.getName());

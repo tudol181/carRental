@@ -137,47 +137,18 @@ public class AdminController {
     public String saveCar(@ModelAttribute("car") Car car) {
 
         Car existingCar = carService.findCarById(car.getId());
+        System.out.println(car);
+        existingCar.setName(car.getName());
+        existingCar.setModel(car.getModel());
+        existingCar.setYear(car.getYear());
+        existingCar.setYear(car.getYear());
+        existingCar.setSeats(car.getSeats());
+        existingCar.setCapacity(car.getCapacity());
+        existingCar.setMinimumDriverAge(car.getMinimumDriverAge());
+        existingCar.setPrice(car.getPrice());
+        existingCar.setPhotoUrl(car.getPhotoUrl());
+        carService.updateCar(existingCar);
 
-        // Retain old values if the new values are empty
-        if (car.getOwner() == null) {
-            car.setOwner(existingCar.getOwner());
-        }
-        if (car.getName() == null || car.getName().isEmpty()) {
-            car.setName(existingCar.getName());
-        }
-        if (car.getModel() == null || car.getModel().isEmpty()) {
-            car.setModel(existingCar.getModel());
-        }
-        if (car.getYear() == null) {
-            car.setYear(existingCar.getYear());
-        }
-        if (car.getSeats() == null) {
-            car.setSeats(existingCar.getSeats());
-        }
-        if (car.getCapacity() == null) {
-            car.setCapacity(existingCar.getCapacity());
-        }
-        if (car.getMinimumDriverAge() == null) {
-            car.setMinimumDriverAge(existingCar.getMinimumDriverAge());
-        }
-        if (car.getPrice() == null) {
-            car.setPrice(existingCar.getPrice());
-        }
-        if (car.getPhotoUrl() == null || car.getPhotoUrl().isEmpty()) {
-            car.setPhotoUrl(existingCar.getPhotoUrl());
-        }
-
-        //retain the old values for rental table
-        carService.updateCar(car);
-//        List<Rental> rentals = rentalService.findRentalsByCarId(existingCar.getId());
-//        for (Rental rental : rentals) {
-//            try {
-//                System.out.println("Updating rental: " + rental);
-//                rentalService.updateRental(rental);
-//            } catch (EntityNotFoundException e) {
-//                System.err.println("Rental entry not found: " + e.getMessage());
-//            }
-//        }
         return "redirect:/admin";
     }
 
