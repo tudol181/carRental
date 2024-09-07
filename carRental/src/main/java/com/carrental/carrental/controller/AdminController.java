@@ -64,6 +64,12 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    @PostMapping("/delete-car")
+    public String deleteCar(@RequestParam("id") int id) {
+        carService.deleteCar(id);
+        return "redirect:/admin";
+    }
+
     @GetMapping("/showUserFormForUpdate")
     public String showUserFormForUpdateGET(@RequestParam("id") int id,Model model) {
 
