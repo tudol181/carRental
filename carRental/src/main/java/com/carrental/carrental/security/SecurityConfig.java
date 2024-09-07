@@ -45,7 +45,7 @@ public class SecurityConfig {
                                         .requestMatchers("/css/**").permitAll()
                                         .requestMatchers("/photos/**").permitAll()
                                         .requestMatchers("/about").permitAll()
-//                                        .requestMatchers("/car/**").hasAnyRole("SELLER", "ADMIN")
+//                                        .requestMatchers("/car/**").hasAnyRole("CLIENT", "SELLER", "ADMIN")
                                         .requestMatchers("/admin/**").hasAnyRole("SELLER", "ADMIN")
 //                                .requestMatchers("leaders/**").hasRole("MANAGER")
 //                                .requestMatchers("/systems/**").hasRole("ADMIN")

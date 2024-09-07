@@ -18,5 +18,6 @@ public interface CarDAO {
     List<Car> sortCarsByPrice(List<Car> cars, boolean ascending);
     void deleteCar(int id);
     List<User> findRentersByCarId(int id);
+    void removeReview(int carId, int reviewId);
 
 }

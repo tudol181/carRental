@@ -62,4 +62,8 @@ public class CarService {
     public List<User> findRentersByCarId(int id) {
         return carDAO.findRentersByCarId(id);
     }
+
+    public void removeReview(int carId, int reviewId) {
+        carDAO.removeReview(carId, reviewId);
+    }
 }

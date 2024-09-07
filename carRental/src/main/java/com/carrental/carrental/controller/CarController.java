@@ -1,16 +1,11 @@
 package com.carrental.carrental.controller;
 
-import com.carrental.carrental.entity.Car;
-import com.carrental.carrental.entity.Photo;
-import com.carrental.carrental.entity.Rental;
-import com.carrental.carrental.entity.User;
-import com.carrental.carrental.service.CarService;
-import com.carrental.carrental.service.PhotoService;
-import com.carrental.carrental.service.RentalService;
-import com.carrental.carrental.service.UserService;
+import com.carrental.carrental.entity.*;
+import com.carrental.carrental.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,13 +30,15 @@ public class CarController {
     private final UserService userService;
     private final PhotoService photoService;
     private final RentalService rentalService;
+    private final ReviewService reviewService;
 
     @Autowired
-    public CarController(CarService carService, UserService userService, PhotoService photoService, RentalService rentalService) {
+    public CarController(CarService carService, UserService userService, PhotoService photoService, RentalService rentalService, ReviewService reviewService) {
         this.carService = carService;
         this.userService = userService;
         this.photoService = photoService;
         this.rentalService = rentalService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/addCar")
@@ -102,6 +99,8 @@ public class CarController {
     @GetMapping("/{id}")
     public String getCarDetails(@PathVariable("id") int id, Model model, Principal principal) {
         Car car = carService.findCarById(id);
+        List<Review> reviews = reviewService.getReviewByCarId(id);
+
         if (car == null) {
             model.addAttribute("errorMessage", "Car not found");
             return "error-page";
@@ -112,6 +111,11 @@ public class CarController {
             boolean isRented = currentUser.getCars().contains(car);
             model.addAttribute("isRented", isRented);
             model.addAttribute("currentUserId", currentUser.getId());
+
+            List<Review> userReviews = reviews.stream()
+                    .filter(review -> Objects.equals(review.getUser().getId(), currentUser.getId()))
+                    .collect(Collectors.toList());
+            model.addAttribute("userReviews", userReviews);
         }
 
         List<Photo> photos = car.getPhotos(); // all car photos
@@ -123,6 +127,7 @@ public class CarController {
         model.addAttribute("car", car);
         model.addAttribute("photos", photos);
         model.addAttribute("rentals", rentals);
+        model.addAttribute("reviews", reviews.subList(0, Math.min(reviews.size(), 20)));
         return "car-details";
     }
 
@@ -270,6 +275,53 @@ public class CarController {
         carService.updateCar(existingCar);
 
         return "redirect:/user/profile";
+    }
+
+    @PostMapping("/{carId}/review")
+    public String postReview(@PathVariable int carId, @RequestParam String comment, Principal principal) {
+        System.out.println(principal);
+        User user = userService.getUserByUsername(principal.getName());
+        Review review = new Review();
+        review.setComment(comment);
+        review.setCar(carService.findCarById(carId));
+        review.setUser(user);
+        System.out.println(user);
+        reviewService.saveReview(review);
+        return "redirect:/car/" + carId;
+    }
+
+    @GetMapping("/review/edit")
+    public String editReview(@RequestParam("id") int id, Model model, Principal principal) {
+        Review review = reviewService.getReviewById(id);
+        if (review == null || !review.getUser().getUserName().equals(principal.getName())) {
+            return "redirect:/error"; // Redirect or show error message
+        }
+        model.addAttribute("review", review);
+        return "edit-review"; // Create an edit-review.html template for this
+    }
+
+    @PostMapping("/review/edit/{id}")
+    public String saveEditedReview(@ModelAttribute Review review, Principal principal) {
+        Review existingReview = reviewService.getReviewById(review.getId());
+        if (existingReview == null || !existingReview.getUser().getUserName().equals(principal.getName())) {
+            return "redirect:/error"; // Redirect or show error message
+        }
+        existingReview.setComment(review.getComment());
+        reviewService.saveReview(existingReview);
+        return "redirect:/car/" + existingReview.getCar().getId();
+    }
+
+    @PostMapping("/review/delete")
+    public String deleteReview(@RequestParam("id") int id, Principal principal) {
+        Review review = reviewService.getReviewById(id);
+        if (review == null || !review.getUser().getUserName().equals(principal.getName())) {
+            return "redirect:/error"; // Redirect or show error message
+        }
+        System.out.println(review);
+        carService.removeReview(review.getCar().getId(), review.getId());
+        reviewService.deleteReview(review.getId());
+        System.out.println(review);
+        return "redirect:/car/" + review.getCar().getId();
     }
 
 }

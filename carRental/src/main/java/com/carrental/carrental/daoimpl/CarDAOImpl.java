@@ -92,4 +92,10 @@ public class CarDAOImpl implements CarDAO {
         query.setParameter("id", id);
         return query.getResultList();
     }
+
+    @Override
+    public void removeReview(int carId, int reviewId) {
+        Car car = findCarById(carId);
+        car.getReviews().removeIf(review -> review.getId() == reviewId);
+    }
 }

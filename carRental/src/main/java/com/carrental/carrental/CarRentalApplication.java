@@ -29,7 +29,12 @@ public class CarRentalApplication {
     public CommandLineRunner commandLineRunner(UserService userService, CarService carService, ReviewService reviewService) {
         return runner -> {
             try {
-
+                Car car = carService.findCarById(26);
+                Review review = car.getReviews().getFirst();
+                System.out.println(review);
+//                carService.removeReview(car.getId(), review.getId());
+//                reviewService.deleteReview(review);
+//                System.out.println(car.getReviews().getFirst());
             } catch (Exception e) {
                 e.printStackTrace();
             }
