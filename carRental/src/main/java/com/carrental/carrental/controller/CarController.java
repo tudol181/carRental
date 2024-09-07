@@ -211,10 +211,15 @@ public class CarController {
 
     @GetMapping("/showCarFormForUpdate")
     public String showCarFormForUpdateGET(@RequestParam("id") int id,
+                                          Principal principal,
                                           Model model) {
 
         // get the car
         Car car = carService.findCarById(id);
+        if (car.getOwner().getId() != userService.getUserByUsername(principal.getName()).getId()) {
+            // Redirect or show error message
+            return "redirect:/error"; // Redirect to an error page or show a message
+        }
         // prepopulate with car info
         model.addAttribute("car", car);
 
@@ -225,10 +230,16 @@ public class CarController {
 
     @PostMapping("/showCarFormForUpdate")
     public String showCarFormForUpdate(@RequestParam("id") int id,
+                                       Principal principal,
                                        Model model) {
 
         // get the employee from the service
         Car car = carService.findCarById(id);
+
+        if (car.getOwner().getId() != userService.getUserByUsername(principal.getName()).getId()) {
+            // Redirect or show error message
+            return "redirect:/error"; // Redirect to an error page or show a message
+        }
 
         // set employee as a model attribute to pre-populate the form
         model.addAttribute("car", car);
