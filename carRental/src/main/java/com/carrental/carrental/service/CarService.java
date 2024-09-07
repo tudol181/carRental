@@ -53,4 +53,8 @@ public class CarService {
         return carDAO.sortCarsByPrice(cars, ascending);
     }
 
+    @Transactional
+    public void deleteCar(int id){
+        carDAO.deleteCar(id);
+    }
 }

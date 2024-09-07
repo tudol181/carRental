@@ -90,15 +90,15 @@ body {
 }
 
 .filter-and-list {
-    display: flex; /* Display filter and list side by side */
+    display: flex;
 }
 
 .filter {
-    width: 100px;
+    width: 50px;
     background-color: #f8f8f8;
     padding: 2px;
     border-radius: 0px;
-    margin-right: 0px; /* Space between filter and list */
+    margin-right: 20px;
 }
 
 .filter input[type="text"],

@@ -80,4 +80,10 @@ public class CarImpl implements CarDAO {
                 .sorted(ascending ? Comparator.comparing(Car::getPrice) : Comparator.comparing(Car::getPrice).reversed())
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteCar(int id) {
+        Car car = findCarById(id);
+        em.remove(car);
+    }
 }

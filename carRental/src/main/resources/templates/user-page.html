@@ -5,90 +5,244 @@
     <title>User Profile</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
-    <link href="/css/user-page.css" rel="stylesheet"/>
-<!--        <link href="/css/styles.css" rel="stylesheet"/>-->
+    <!-- Custom CSS -->
+    <style>
+        /* Background gradient */
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb, #90caf9) fixed;
+            background-size: cover;
+        }
 
+        /* Profile Header */
+        .header {
+            background-color: rgba(33, 150, 243, 0.8); /* Light blue with transparency */
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        /* Navbar Styling */
+        .nav {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Card Styling */
+        .car-item .card {
+            background-color: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Card hover effect */
+        .car-item:hover .card {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Car Image Styling */
+        .car-item img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        /* General Text Styling */
+        h2, h3 {
+            color: #0277bd; /* Deep blue for headings */
+        }
+
+        p {
+            color: #424242; /* Darker text color for better readability */
+        }
+
+        .price {
+            color: #007bff; /* Highlight price in blue */
+            font-weight: bold;
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background-color: #1976d2;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d47a1;
+            transform: translateY(-2px);
+        }
+
+        /* Styling for empty lists */
+        .alert {
+            background-color: rgba(33, 150, 243, 0.1); /* Light blue transparent background */
+            color: #0277bd;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .header {
+            background-color: #2196F3;  /* Matching blue color */
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .nav {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-top: 0;
+            border-radius: 5px;
+        }
+
+        .btn-logout {
+            background-color: #2196F3;  /* Same blue as the header */
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #1976D2;  /* Slightly darker blue on hover */
+            color: white;
+        }
+
+    </style>
 </head>
 <body>
+<!-- Header -->
 <div class="header">
     <h1>User Profile</h1>
 </div>
-<div class="nav">
-    <a href="#" th:href="@{/about}">About Us</a>
-    <a href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
-    <a href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
-    <a href="#" th:href="@{/}" sec:authorize="isAuthenticated()">Home</a>
-    <a href="#" th:href="@{/admin}" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">Admin</a>
-    <form action="#" th:action="@{/logout}" method="post">
-        <input type="submit" value="Logout" sec:authorize="isAuthenticated()">
-    </form>
-</div>
-<div class="container mt-5">
-    <h2 th:text="${user.firstName} + ' ' + ${user.lastName}"></h2>
-    <p><strong>Username:</strong> <span th:text="${user.userName}"></span></p>
-    <p><strong>Email:</strong> <span th:text="${user.userDetail.email}"></span></p>
-    <p><strong>Phone Number:</strong> <span th:text="${user.userDetail.phoneNumber}"></span></p>
-    <p><strong>City:</strong> <span th:text="${user.userDetail.city}"></span></p>
-    <p><strong>Country:</strong> <span th:text="${user.userDetail.country}"></span></p>
-    <p><strong>Role:</strong> <span th:text="${user.getRoles()}"></span></p>
-    <!-- Owned Cars Section -->
 
+<!-- Navigation -->
+<nav class="nav navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">CarRental</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/about}">About Us</a></li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="#"
+                                                                           th:href="@{/login}">Login</a></li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="#"
+                                                                           th:href="@{/register}">Register</a></li>
+                <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link" href="#"
+                                                                          th:href="@{/}">Home</a></li>
+                <li class="nav-item" sec:authorize="hasAnyRole('SELLER', 'ADMIN')"><a class="nav-link" href="#"
+                                                                                      th:href="@{/admin}">Admin</a></li>
+            </ul>
+            <form class="d-flex" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <button class="btn btn-logout" type="submit">Logout</button>
+            </form>
+
+        </div>
+    </div>
+</nav>
+
+<!-- User Profile Section -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 th:text="${user.firstName} + ' ' + ${user.lastName}"></h2>
+            <p><strong>Username:</strong> <span th:text="${user.userName}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.userDetail.email}"></span></p>
+            <p><strong>Phone Number:</strong> <span th:text="${user.userDetail.phoneNumber}"></span></p>
+            <p><strong>City:</strong> <span th:text="${user.userDetail.city}"></span></p>
+            <p><strong>Country:</strong> <span th:text="${user.userDetail.country}"></span></p>
+            <p><strong>Role:</strong> <span th:text="${user.getRoles()}"></span></p>
+            <a href="#" th:href="@{/user/edit-profile}" class="btn btn-primary mt-3">Edit Profile</a>
+        </div>
+    </div>
+</div>
+
+<!-- Owned Cars Section -->
+<div class="container mt-5">
     <h3 sec:authorize="hasAnyRole('SELLER', 'ADMIN')">Owned Cars</h3>
-    <div class="car-list" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">
-        <div th:if="${not #lists.isEmpty(ownedCars)}">
-            <div class="car-item" th:each="car : ${ownedCars}">
-                <!-- Wrap the car item inside a link to the car's detail page -->
-                <a th:href="@{/car/{id}(id=${car.id})}" style="text-decoration: none; color: inherit;">
-                    <img th:src="${car.photoUrl}" alt="Car Image" style="max-width: 100%; height: auto;">
-                    <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
-                    <p>Year: <span th:text="${car.year}"></span></p>
-                    <p>Seats: <span th:text="${car.seats}"></span></p>
-                    <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
-                    <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
-                    <p class="price" th:text="'$' + ${car.price}"></p>
-                </a>
+    <div class="row" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">
+        <div th:if="${not #lists.isEmpty(ownedCars)}" class="d-flex flex-wrap">
+            <div class="col-md-4 mb-4 car-item" th:each="car : ${ownedCars}">
+                <div class="card h-100">
+                    <a th:href="@{/car/{id}(id=${car.id})}" style="text-decoration: none; color: inherit;">
+                        <img th:src="${car.photoUrl}" class="card-img-top" alt="Car Image">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${car.name} + ' ' + ${car.model}"></h5>
+                            <p class="card-text">Year: <span th:text="${car.year}"></span></p>
+                            <p class="card-text">Seats: <span th:text="${car.seats}"></span></p>
+                            <p class="card-text">Capacity: <span th:text="${car.capacity}"></span> L</p>
+                            <p class="card-text">Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years
+                            </p>
+                            <p class="card-text text-primary fw-bold" th:text="'$' + ${car.price}"></p>
+                        </div>
+                    </a>
+
+                    <!-- Add rented dates for owned cars -->
+                    <div th:each="rental : ${rentals}" th:if="${rental.car.id == car.id}">
+                        <p><strong>Rented From:</strong> <span th:text="${rental.pickupDate}"></span>
+                            <strong> To:</strong> <span th:text="${rental.returnDate}"></span></p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div th:if="${#lists.isEmpty(ownedCars)}" class="list-group-item">
+        <div th:if="${#lists.isEmpty(ownedCars)}" class="alert alert-info">
             No owned cars found.
         </div>
     </div>
+</div>
 
-    <!-- Rented Cars Section -->
+<!-- Rented Cars Section -->
+<div class="container mt-5">
     <h3>Rented Cars</h3>
-    <div class="car-list">
-        <div th:if="${not #lists.isEmpty(rentedCars)}">
-            <div class="car-item" th:each="car : ${rentedCars}">
-                <!-- Wrap the car item inside a link to the car's detail page -->
-                <a th:href="@{/car/{id}(id=${car.id})}" style="text-decoration: none; color: inherit;">
-                    <img th:src="${car.photoUrl}" alt="Car Image" style="max-width: 100%; height: auto;">
-                    <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
-                    <p>Year: <span th:text="${car.year}"></span></p>
-                    <p>Seats: <span th:text="${car.seats}"></span></p>
-                    <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
-                    <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
-                    <p class="price" th:text="'$' + ${car.price}"></p>
-                </a>
-
-                <div th:each="rental : ${rentals}" th:if="${rental.car.id == car.id}">
-                    <p><strong>Rented From:</strong> <span th:text="${rental.pickupDate}"></span>
-                        <strong> To:</strong> <span th:text="${rental.returnDate}"></span></p>
+    <div class="row">
+        <div th:if="${not #lists.isEmpty(rentedCars)}" class="d-flex flex-wrap">
+            <div class="col-md-4 mb-4 car-item" th:each="car : ${rentedCars}">
+                <div class="card h-100">
+                    <a th:href="@{/car/{id}(id=${car.id})}" style="text-decoration: none; color: inherit;">
+                        <img th:src="${car.photoUrl}" class="card-img-top" alt="Car Image">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${car.name} + ' ' + ${car.model}"></h5>
+                            <p class="card-text">Year: <span th:text="${car.year}"></span></p>
+                            <p class="card-text">Seats: <span th:text="${car.seats}"></span></p>
+                            <p class="card-text">Capacity: <span th:text="${car.capacity}"></span> L</p>
+                            <p class="card-text">Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years
+                            </p>
+                            <p class="card-text text-primary fw-bold" th:text="'$' + ${car.price}"></p>
+                        </div>
+                    </a>
+                    <div th:each="rental : ${rentals}" th:if="${rental.car.id == car.id}">
+                        <p><strong>Rented From:</strong> <span th:text="${rental.pickupDate}"></span>
+                            <strong> To:</strong> <span th:text="${rental.returnDate}"></span></p>
+                    </div>
+                    <form th:action="@{/car/{id}/remove-rented-car(id=${car.id})}" method="post" class="mt-3">
+                        <button type="submit" class="btn btn-danger">Remove Rented Car</button>
+                    </form>
                 </div>
-
-                <form th:action="@{/car/{id}/remove-rented-car(id=${car.id})}" method="post" class="mt-3">
-                    <button type="submit" class="btn btn-danger">Remove Rented Car</button>
-                </form>
             </div>
         </div>
-        <div th:if="${#lists.isEmpty(rentedCars)}" class="list-group-item">
+        <div th:if="${#lists.isEmpty(rentedCars)}" class="alert alert-info">
             No rented cars found.
         </div>
     </div>
-
-    <a href="#" th:href="@{/user/edit-profile}" class="btn btn-primary">Edit Profile</a>
 </div>
-<script src="/js/script.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
