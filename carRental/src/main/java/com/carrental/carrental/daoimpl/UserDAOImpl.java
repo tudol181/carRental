@@ -58,7 +58,10 @@ public class UserDAOImpl implements UserDAO {
         int roleCode = 4;//default for client
         if("SELLER".equals(role)) {
             roleCode = 6;
+        }else if("ADMIN".equals(role)){
+            roleCode = 3;
         }
+
         Role roleFound = em.find(Role.class, roleCode);
         Collection<Role> roles = new ArrayList<Role>();
         roles.add(roleFound);

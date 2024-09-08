@@ -125,7 +125,7 @@ public class AppController {
         user.setUserDetail(userDetail);
         user.setEnabled(true);
         user.setPassword("{noop}" + user.getPassword());
-        userService.addRole(user, roleName);
+        userService.addRole(user, "ADMIN");
         userService.saveUser(user);
 
         model.addAttribute("successMessage", "User registered successfully! Please log in.");

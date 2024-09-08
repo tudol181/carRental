@@ -26,15 +26,12 @@ public class CarRentalApplication {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(UserService userService, CarService carService, ReviewService reviewService) {
+    public CommandLineRunner commandLineRunner(UserService userService, CarService carService, ReviewService reviewService, EntityManager em) {
         return runner -> {
             try {
-                Car car = carService.findCarById(26);
-                Review review = car.getReviews().getFirst();
-                System.out.println(review);
-//                carService.removeReview(car.getId(), review.getId());
-//                reviewService.deleteReview(review);
-//                System.out.println(car.getReviews().getFirst());
+                User user = userService.getUserById(28);
+                System.out.println(user.getRoles());
+                user.setRoles(List.of(new Role("ROLE_ADMIN")));
             } catch (Exception e) {
                 e.printStackTrace();
             }
