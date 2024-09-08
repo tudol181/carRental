@@ -1,0 +1,62 @@
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb, #90caf9) fixed;
+    background-size: cover;
+    padding: 20px;
+}
+
+/* Header */
+h2 {
+    color: #0277bd; /* Deep blue for headers */
+    margin-bottom: 30px;
+}
+
+h3 {
+    color: #2196F3; /* Light blue */
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
+/* Table Styling */
+table {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden; /* Rounded corners */
+}
+
+thead {
+    background-color: #2196F3; /* Header background color */
+    color: white;
+}
+
+tbody tr:hover {
+    background-color: rgba(33, 150, 243, 0.1); /* Light blue on hover */
+}
+
+/* Button styling */
+.btn-warning {
+    background-color: #ff9800; /* Custom orange for edit buttons */
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #fb8c00; /* Darker orange on hover */
+}
+
+.btn-danger {
+    background-color: #f44336; /* Custom red for delete buttons */
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+/* Navigation Bar */
+.nav {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

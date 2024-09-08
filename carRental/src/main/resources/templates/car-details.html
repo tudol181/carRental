@@ -19,7 +19,7 @@
     <a class="nav-link" href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
     <a class="nav-link" href="#" th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
     <a class="nav-link" href="#" th:href="@{/user/profile}" sec:authorize="isAuthenticated()">User profile</a>
-    <a class="nav-link" href="#" th:href="@{/admin}" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">Admin</a>
+    <a class="nav-link" href="#" th:href="@{/admin}" sec:authorize="hasRole('ADMIN')">Admin</a>
     <a class="nav-link" href="#" th:href="@{/car/addCar}" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">Add a car</a>
 
     <form class="d-inline" action="#" th:action="@{/logout}" method="post">

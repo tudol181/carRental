@@ -23,7 +23,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="#" th:href="@{/}">Home</a>
                     </li>
@@ -36,7 +36,7 @@
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <a class="nav-link" href="#" th:href="@{/user/profile}">User profile</a>
                     </li>
-                    <li class="nav-item" sec:authorize="hasAnyRole('SELLER', 'ADMIN')">
+                    <li class="nav-item" sec:authorize="hasRole( 'ADMIN')">
                         <a class="nav-link" href="#" th:href="@{/admin}">Admin</a>
                     </li>
                 </ul>
@@ -50,63 +50,42 @@
     </nav>
 
     <div class="content">
-        <h2>Welcome to Car Rental</h2>
-        <p>
-            At Car Rental, we are committed to providing the best car rental experience to our customers. With a wide
-            selection of vehicles and affordable rates, we ensure that you find the perfect car for your needs. Whether
-            you
-            are planning a weekend getaway or need a reliable vehicle for your business trip, we've got you covered.
-        </p>
-
-        <h2>Our Mission</h2>
-        <p>
-            Our mission is to offer top-notch customer service, ensuring that every client is satisfied with their
-            rental
-            experience. We strive to make car rental easy, convenient, and accessible for everyone.
-        </p>
-
-        <h2>Our Team</h2>
-        <p>
-            Meet the dedicated team behind Car Rental. We are passionate about what we do and are here to assist you
-            with
-            all your car rental needs.
-        </p>
-
+        <div class="col-md-8 mx-auto team-member mb-4">
+            <div class="card text-center">
+                <h2>Welcome to Car Rental</h2>
+                <p>
+                    Thank you for choosing our car rental service! We are delighted to have you with us and are
+                    dedicated to making your experience as smooth and enjoyable as possible.
+                    Our team is always here to assist you, ensuring that every step of your rental journey meets
+                    your
+                    expectations.
+                </p>
+            </div>
+        </div>
         <div class="row team-section">
-            <div class="col-md-4 team-member mb-4">
-                <div class="card">
+            <div class="col-md-8 mx-auto team-member mb-4">
+                <div class="card text-center">
                     <div class="card-body">
-                        <h3 class="card-title">John Doe - CEO</h3>
-                        <p class="card-text">
-                            John is the founder and CEO of Car Rental. With over 15 years of experience in the
-                            automotive industry,
-                            John has a vision to make car rental more accessible and customer-friendly.
+                        <h2>Our Mission</h2>
+                        <p>
+                            Our mission is to deliver exceptional customer service, ensuring every client enjoys a
+                            seamless and
+                            satisfying rental experience.
+                            We aim to make car rentals simple, convenient, and accessible for all.
                         </p>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-4 team-member mb-4">
-                <div class="card">
+        </div>
+        <div class="row team-section">
+            <div class="col-md-8 mx-auto team-member mb-4">
+                <div class="card text-center">
                     <div class="card-body">
-                        <h3 class="card-title">Jane Smith - Customer Service Manager</h3>
-                        <p class="card-text">
-                            Jane leads our customer service team, ensuring that every customer interaction is handled
-                            with care and
-                            professionalism.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 team-member mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Robert Brown - Fleet Manager</h3>
-                        <p class="card-text">
-                            Robert is responsible for managing our diverse fleet of vehicles. His attention to detail
-                            ensures that
-                            every car is in top condition and ready for your next trip.
+                        <h2>Our Team</h2>
+                        <p>
+                            Meet the committed team behind Car Rental. We are passionate about our work and ready to
+                            assist you with
+                            all your car rental needs.
                         </p>
                     </div>
                 </div>
@@ -118,3 +97,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

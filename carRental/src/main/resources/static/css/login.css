@@ -1,0 +1,26 @@
+body {
+    background: linear-gradient(135deg, #00416A, #E4E5E6);
+    min-height: 100vh;
+}
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.btn {
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.btn-home {
+    width: 100%;
+    font-size: 1.2rem;
+}
+.footer-links {
+    margin-top: 10px;
+}
+h4, label {
+    font-weight: bold;
+}
