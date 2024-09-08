@@ -113,7 +113,7 @@ public class AdminController {
         Car car = carService.findCarById(id);
         // prepopulate with car info
         model.addAttribute("car", car);
-
+        model.addAttribute("carTypes",List.of("Small car", "SUV", "Break", "Sport", "Roadster", "Van"));
         // send over to our form
         return "admin-edit-car";
     }
@@ -147,6 +147,7 @@ public class AdminController {
         existingCar.setMinimumDriverAge(car.getMinimumDriverAge());
         existingCar.setPrice(car.getPrice());
         existingCar.setPhotoUrl(car.getPhotoUrl());
+        existingCar.setType(car.getType());
         carService.updateCar(existingCar);
 
         return "redirect:/admin";

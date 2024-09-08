@@ -25,6 +25,20 @@
         </div>
 
         <div class="mb-3">
+            <label for="type" class="form-label">Car Type</label>
+            <select name="type" id="type" class="form-select" required>
+                <option value="" disabled>Select a car type</option>
+                <option value="Small Car" th:selected="${car.type == 'Small Car'}">Small Car</option>
+                <option value="Break" th:selected="${car.type == 'Break'}">Break</option>
+                <option value="Sport" th:selected="${car.type == 'Sport'}">Sport</option>
+                <option value="Van" th:selected="${car.type == 'Van'}">Van</option>
+                <option value="Roadster" th:selected="${car.type == 'Roadster'}">Roadster</option>
+                <option value="SUV" th:selected="${car.type == 'SUV'}">SUV</option>
+            </select>
+        </div>
+
+
+        <div class="mb-3">
             <label for="year" class="form-label">Year</label>
             <input type="number" th:field="*{year}" class="form-control" id="year" placeholder="Year" required>
         </div>

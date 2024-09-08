@@ -43,6 +43,7 @@ public class AppController {
             @RequestParam(value = "maxSeats", required = false) Integer maxSeats,
             @RequestParam(value = "pickupDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate pickupDate,
             @RequestParam(value = "returnDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate returnDate,
+            @RequestParam(value = "carType", required = false) String carType,
             @RequestParam(value = "sort", required = false) String sort,
             Model model) {
 
@@ -88,12 +89,18 @@ public class AppController {
         }
         if (sort != null) {
             if (sort.equals("priceAsc")) {
-                cars = carService.sortCarsByPrice(cars, true); // Sort ascending
+                cars = carService.sortCarsByPrice(cars, true);
             } else if (sort.equals("priceDesc")) {
-                cars = carService.sortCarsByPrice(cars, false); // Sort descending
+                cars = carService.sortCarsByPrice(cars, false);
             }
         }
-        // add filtered cars to the model
+
+        if (carType != null && !carType.isEmpty()) {
+            cars = cars.stream()
+                    .filter(car -> car.getType() != null && car.getType().equalsIgnoreCase(carType)) // Add null check here
+                    .toList();
+        }
+
         model.addAttribute("cars", cars);
         return "home";
     }

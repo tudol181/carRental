@@ -58,6 +58,7 @@ public class Car {
     @JoinColumn(name = "owner_id")
     private User owner;
 
+    private String type;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "rental",
@@ -76,7 +77,7 @@ public class Car {
 
     }
 
-    public Car(String name, String model, Integer year, Integer seats, Float capacity, Integer minimumDriverAge, BigDecimal price, String photoUrl) {
+    public Car(String name, String model, Integer year, Integer seats, Float capacity, Integer minimumDriverAge, BigDecimal price, String photoUrl, String type) {
         this.name = name;
         this.model = model;
         this.year = year;
@@ -85,6 +86,7 @@ public class Car {
         this.minimumDriverAge = minimumDriverAge;
         this.price = price;
         this.photoUrl = photoUrl;
+        this.type = type;
     }
 
     /**
@@ -118,6 +120,14 @@ public class Car {
         }
         photos.add(photo);
         photo.setCar(this);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<Photo> getPhotos() {

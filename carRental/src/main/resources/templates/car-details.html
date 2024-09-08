@@ -30,11 +30,13 @@
 <div class="container mt-4 car-details">
     <img th:src="${car.photoUrl}" alt="Car Image" class="img-fluid mb-3"/>
     <h3 th:text="${car.name} + ' ' + ${car.model}"></h3>
+    <p>Car Type: <span th:text="${car.type}"></span></p>
     <p>Year: <span th:text="${car.year}"></span></p>
     <p>Seats: <span th:text="${car.seats}"></span></p>
     <p>Capacity: <span th:text="${car.capacity}"></span> L</p>
     <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
     <p class="text-primary fw-bold" th:text="'$' + ${car.price}"></p>
+
 
     <!-- Button to load more reviews -->
 

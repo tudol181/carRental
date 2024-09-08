@@ -57,7 +57,7 @@ public class CarController {
         carService.saveCar(car);
 
         String photoPath = savePhoto(photo, car);
-
+        car.setType(car.getType());
         car.setPhotoUrl(photoPath);
         carService.updateCar(car);
 
@@ -257,11 +257,11 @@ public class CarController {
     @PostMapping("/saveCar")
     public String saveCar(@ModelAttribute("car") Car car,
                           Principal principal) {
-        if (!Objects.equals(car.getOwner().getId(), userService.getUserByUsername(principal.getName()).getId())) {
+        Car existingCar = carService.findCarById(car.getId());
+        if (!Objects.equals(existingCar.getOwner().getId(), userService.getUserByUsername(principal.getName()).getId())) {
             // Redirect or show error message
             return "redirect:/error"; // Redirect to an error page or show a message
         }
-        Car existingCar = carService.findCarById(car.getId());
         System.out.println(car);
         existingCar.setName(car.getName());
         existingCar.setModel(car.getModel());
@@ -272,6 +272,7 @@ public class CarController {
         existingCar.setMinimumDriverAge(car.getMinimumDriverAge());
         existingCar.setPrice(car.getPrice());
         existingCar.setPhotoUrl(car.getPhotoUrl());
+        existingCar.setType(car.getType());
         carService.updateCar(existingCar);
 
         return "redirect:/user/profile";

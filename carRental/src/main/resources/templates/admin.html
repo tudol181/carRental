@@ -72,6 +72,7 @@
       <th>ID</th>
       <th>Name</th>
       <th>Model</th>
+      <th>Type</th>
       <th>Year</th>
       <th>Price</th>
       <th>Actions</th>
@@ -82,6 +83,7 @@
       <td th:text="${car.id}"></td>
       <td th:text="${car.name}"></td>
       <td th:text="${car.model}"></td>
+      <td th:text="${car.type != null ? car.type : 'N/A'}"></td>
       <td th:text="${car.year}"></td>
       <td th:text="${car.price}"></td>
       <td>

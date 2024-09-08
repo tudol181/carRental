@@ -98,4 +98,11 @@ public class CarDAOImpl implements CarDAO {
         Car car = findCarById(carId);
         car.getReviews().removeIf(review -> review.getId() == reviewId);
     }
+
+    @Override
+    public List<Car> findCarsByType(String type) {
+        TypedQuery<Car> query = em.createQuery("from Car where type =:type", Car.class);
+        query.setParameter("type", type);
+        return query.getResultList();
+    }
 }
