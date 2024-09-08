@@ -8,6 +8,7 @@ import com.carrental.carrental.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,11 +25,13 @@ import java.util.List;
 public class AppController {
     private final CarService carService;
     private final UserService userService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AppController(CarService carService, UserService userService) {
+    public AppController(CarService carService, UserService userService, PasswordEncoder passwordEncoder) {
         this.carService = carService;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
@@ -124,8 +127,10 @@ public class AppController {
 
         user.setUserDetail(userDetail);
         user.setEnabled(true);
-        user.setPassword("{noop}" + user.getPassword());
-        userService.addRole(user, "ADMIN");
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+//        user.setPassword("{noop}" + user.getPassword());//no encryption
+        userService.addRole(user, roleName);//set to admin if you want to add an admin
         userService.saveUser(user);
 
         model.addAttribute("successMessage", "User registered successfully! Please log in.");
