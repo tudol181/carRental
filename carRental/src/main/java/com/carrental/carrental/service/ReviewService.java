@@ -2,7 +2,7 @@ package com.carrental.carrental.service;
 
 import com.carrental.carrental.dao.ReviewDAO;
 import com.carrental.carrental.entity.Review;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +17,7 @@ public class ReviewService {
         this.reviewDAO = reviewDAO;
     }
 
+    @Transactional(readOnly = true)
     public List<Review> getReviewByUserId(int id) {
         return reviewDAO.getReviewByUserId(id);
     }

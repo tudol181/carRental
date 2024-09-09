@@ -25,6 +25,7 @@ public class CarService {
         carDAO.save(car);
     }
 
+    @Transactional(readOnly = true)
     public Car findCarById(int id) {
         return carDAO.findCarById(id);
     }
@@ -37,6 +38,7 @@ public class CarService {
         return carDAO.findReviewByCarId(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Car> findAllCars() {
         return carDAO.findAllCars();
     }

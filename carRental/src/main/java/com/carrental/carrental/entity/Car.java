@@ -66,7 +66,7 @@ public class Car {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "car_id")
     private List<Review> reviews;
 

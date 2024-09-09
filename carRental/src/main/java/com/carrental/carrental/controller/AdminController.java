@@ -137,7 +137,7 @@ public class AdminController {
     public String saveCar(@ModelAttribute("car") Car car) {
 
         Car existingCar = carService.findCarById(car.getId());
-        System.out.println(car);
+//        System.out.println(car);
         existingCar.setName(car.getName());
         existingCar.setModel(car.getModel());
         existingCar.setYear(car.getYear());
