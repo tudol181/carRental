@@ -58,6 +58,8 @@ public class Car {
     @JoinColumn(name = "owner_id")
     private User owner;
 
+    @Column(name = "type")
+    @NotNull(message = "Car type is required")
     private String type;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
@@ -111,7 +113,7 @@ public class Car {
             users = new ArrayList<>();
         }
         users.add(user);
-        //user.getCars().add(this);
+        user.getCars().add(this);
     }
 
     public void addPhoto(Photo photo) {

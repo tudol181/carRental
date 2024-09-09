@@ -164,10 +164,16 @@ public class CarController {
                           Model model) {
 
         User user = userService.getUserByUsername(principal.getName());
-
         Car car = carService.findCarById(id);
+
         if (car == null) {
             return "redirect:/car/" + id + "?error=CarNotFound";
+        }
+
+        //pickup date < return date
+        if (pickupDate.isAfter(returnDate)) {
+            model.addAttribute("errorMessage", "Pickup date must be before return date.");
+            return getCarDetails(id, model, principal);
         }
 
         boolean isAvailable = carService.isAvailable(car, pickupDate, returnDate);
@@ -176,12 +182,24 @@ public class CarController {
             return getCarDetails(id, model, principal);
         }
 
-        // Add the car to the user's rented cars
-        user.addCar(car);
-        userService.updateUser(user);  // Update the user
-        rentalService.updateRentalDates(user.getId(), car.getId(), pickupDate, returnDate);
+        // Check for existing rentals for the user
+        List<Rental> existingRentals = rentalService.findRentalsByUserId(user.getId());
+
+        // Ensure that no existing rental conflicts with the new one
+        for (Rental rental : existingRentals) {
+            if (rental.getCar().getId() == id) {
+                model.addAttribute("errorMessage", "You already have a rental for this car.");
+                return getCarDetails(id, model, principal);
+            }
+        }
+
+        // Create a new rental if no existing conflict is found
+        Rental newRental = new Rental(user, car, pickupDate, returnDate);
+        rentalService.saveRental(newRental); // Save the new rental
+
         return "redirect:/car/" + id + "?success=CarRented";
     }
+
 
 
     @PostMapping("/{id}/remove-rented-car")

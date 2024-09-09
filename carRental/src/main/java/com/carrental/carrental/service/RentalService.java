@@ -3,7 +3,7 @@ package com.carrental.carrental.service;
 import com.carrental.carrental.dao.RentalDAO;
 import com.carrental.carrental.entity.Rental;
 import com.carrental.carrental.entity.RentalId;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
