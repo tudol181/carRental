@@ -30,10 +30,12 @@ public class CarService {
         return carDAO.findCarById(id);
     }
 
+    @Transactional(readOnly = true) // Added
     public List<Car> findCarsByUserId(int id) {
         return carDAO.findCarsByUserId(id);
     }
 
+    @Transactional(readOnly = true) // Added
     public List<Review> findReviewByCarId(int id) {
         return carDAO.findReviewByCarId(id);
     }
@@ -48,6 +50,7 @@ public class CarService {
         carDAO.updateCar(car);
     }
 
+    @Transactional(readOnly = true) // Added if lazy loading is involved
     public boolean isAvailable(Car car, LocalDate pickupDate, LocalDate returnDate) {
         return carDAO.isAvailable(car, pickupDate, returnDate);
     }
@@ -57,18 +60,21 @@ public class CarService {
     }
 
     @Transactional
-    public void deleteCar(int id){
+    public void deleteCar(int id) {
         carDAO.deleteCar(id);
     }
 
+    @Transactional(readOnly = true) // Added
     public List<User> findRentersByCarId(int id) {
         return carDAO.findRentersByCarId(id);
     }
 
+    @Transactional // Added
     public void removeReview(int carId, int reviewId) {
         carDAO.removeReview(carId, reviewId);
     }
 
+    @Transactional(readOnly = true) // Added
     public List<Car> findCarsByType(String type) {
         return carDAO.findCarsByType(type);
     }

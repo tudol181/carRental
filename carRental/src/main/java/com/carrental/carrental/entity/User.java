@@ -43,7 +43,7 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "rental",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "car_id"))

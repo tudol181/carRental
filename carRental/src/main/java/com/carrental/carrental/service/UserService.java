@@ -3,7 +3,7 @@ package com.carrental.carrental.service;
 import com.carrental.carrental.dao.UserDAO;
 import com.carrental.carrental.entity.Car;
 import com.carrental.carrental.entity.User;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +19,7 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
+    @Transactional
     public User getUserById(int id) {
         return userDAO.getUserById(id);
     }
@@ -38,6 +39,7 @@ public class UserService {
         userDAO.updateUser(user);
     }
 
+    @Transactional
     public List<Car> getUsersCars(int id) {
         return userDAO.getUsersCars(id);
     }
@@ -47,14 +49,17 @@ public class UserService {
         userDAO.addRole(user, role);
     }
 
+    @Transactional
     public boolean checkUsername(String username) {
         return userDAO.checkUsername(username);
     }
 
+    @Transactional
     public User getUserByUsername(String username) {
         return userDAO.getUserByUsername(username);
     }
 
+    @Transactional
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
     }
@@ -64,6 +69,7 @@ public class UserService {
         userDAO.addCar(user, car);
     }
 
+    @Transactional
     public List<Car> getOwnedCars(User user) {
         return userDAO.getOwnedCars(user);
     }

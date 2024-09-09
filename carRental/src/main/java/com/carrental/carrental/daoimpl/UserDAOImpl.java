@@ -7,8 +7,10 @@ import com.carrental.carrental.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Table;
 import jakarta.persistence.TypedQuery;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;

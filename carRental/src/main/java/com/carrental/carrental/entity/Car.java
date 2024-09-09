@@ -62,7 +62,7 @@ public class Car {
     @NotNull(message = "Car type is required")
     private String type;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "rental",
             joinColumns = @JoinColumn(name = "car_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
