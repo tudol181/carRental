@@ -105,4 +105,17 @@ public class CarDAOImpl implements CarDAO {
         query.setParameter("type", type);
         return query.getResultList();
     }
+
+    @Override
+    public void addRent(int carId) {
+        Car car = findCarById(carId);
+        car.setNrRenters(car.getNrRenters() + 1);
+    }
+
+    @Override
+    public List<Car> sortCarsByRentings(List<Car> cars, boolean ascending) {
+        return cars.stream()
+                .sorted(ascending ? Comparator.comparing(Car::getNrRenters) : Comparator.comparing(Car::getNrRenters).reversed())
+                .collect(Collectors.toList());
+    }
 }

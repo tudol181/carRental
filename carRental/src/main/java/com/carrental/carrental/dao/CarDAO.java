@@ -20,5 +20,7 @@ public interface CarDAO {
     List<User> findRentersByCarId(int id);
     void removeReview(int carId, int reviewId);
     List<Car> findCarsByType(String type);
+    public List<Car> sortCarsByRentings(List<Car> cars, boolean ascending);
+    public void addRent(int carId);
 
 }

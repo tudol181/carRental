@@ -196,7 +196,8 @@ public class CarController {
         // Create a new rental if no existing conflict is found
         Rental newRental = new Rental(user, car, pickupDate, returnDate);
         rentalService.saveRental(newRental); // Save the new rental
-
+        car.setNrRenters(car.getNrRenters() + 1);
+        carService.updateCar(car);
         return "redirect:/car/" + id + "?success=CarRented";
     }
 
@@ -213,9 +214,11 @@ public class CarController {
             return "redirect:/car/" + id + "?error=CarNotFound";
         }
 
-        // Remove the car from the user's rented cars
-        user.removeCar(car);  // Assuming you have a `removeCar` method in the `User` entity
-        userService.updateUser(user);  // Update the user
+        car.setNrRenters(car.getNrRenters() - 1);
+        carService.updateCar(car);
+        // remove the car from the user's rented cars
+        user.removeCar(car);
+        userService.updateUser(user);
 
         return "redirect:/user/profile";  // Redirect to the user's profile after removal
     }

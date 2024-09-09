@@ -75,6 +75,9 @@ public class Car {
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Photo> photos;
 
+    @Column(name = "nr_of_renters")
+    private Integer nrRenters;
+
     public Car() {
 
     }
@@ -89,6 +92,7 @@ public class Car {
         this.price = price;
         this.photoUrl = photoUrl;
         this.type = type;
+        this.nrRenters = 0;
     }
 
     /**
@@ -122,6 +126,14 @@ public class Car {
         }
         photos.add(photo);
         photo.setCar(this);
+    }
+
+    public Integer getNrRenters() {
+        return nrRenters;
+    }
+
+    public void setNrRenters(int nrRenters) {
+        this.nrRenters = nrRenters;
     }
 
     public String getType() {

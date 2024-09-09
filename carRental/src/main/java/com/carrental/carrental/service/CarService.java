@@ -78,4 +78,15 @@ public class CarService {
     public List<Car> findCarsByType(String type) {
         return carDAO.findCarsByType(type);
     }
+
+    @Transactional
+    public void addRent(int carId){
+        carDAO.addRent(carId);
+    }
+
+    @Transactional
+    public List<Car> sortCarsByRentings(List<Car> cars, boolean ascending) {
+        return carDAO.sortCarsByRentings(cars, ascending);
+    }
+
 }

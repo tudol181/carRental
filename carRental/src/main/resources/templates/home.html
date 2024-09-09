@@ -82,7 +82,6 @@
 
         <!-- Sort Section -->
         <form method="get" th:action="@{/}" class="mb-3">
-            <!-- Keep the existing search/filter parameters if necessary -->
             <input type="hidden" name="search" th:value="${search}" />
             <input type="hidden" name="minPrice" th:value="${minPrice}" />
             <input type="hidden" name="maxPrice" th:value="${maxPrice}" />
@@ -93,9 +92,12 @@
 
             <div class="d-flex justify-content-between mt-3">
                 <button type="submit" name="sort" value="priceAsc" class="btn btn-secondary me-2">Sort by Price: Low to High</button>
-                <button type="submit" name="sort" value="priceDesc" class="btn btn-secondary">Sort by Price: High to Low</button>
+                <button type="submit" name="sort" value="priceDesc" class="btn btn-secondary me-2">Sort by Price: High to Low</button>
+                <button type="submit" name="sort" value="rentersAsc" class="btn btn-secondary me-2">Sort by Renters: Low to High</button>
+                <button type="submit" name="sort" value="rentersDesc" class="btn btn-secondary">Sort by Renters: High to Low</button>
             </div>
         </form>
+
     </div>
 
 

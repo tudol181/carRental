@@ -92,6 +92,10 @@ public class AppController {
                 cars = carService.sortCarsByPrice(cars, true);
             } else if (sort.equals("priceDesc")) {
                 cars = carService.sortCarsByPrice(cars, false);
+            } else if (sort.equals("rentersAsc")) {
+                cars = carService.sortCarsByRentings(cars, true);
+            } else if (sort.equals("rentersDesc")) {
+                cars = carService.sortCarsByRentings(cars, false);
             }
         }
 
