@@ -8,6 +8,7 @@ import com.carrental.carrental.service.RentalService;
 import com.carrental.carrental.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +21,14 @@ public class AdminController {
     private final CarService carService;
     private final UserService userService;
     private final RentalService rentalService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminController(CarService carService, UserService userService, RentalService rentalService) {
+    public AdminController(CarService carService, UserService userService, RentalService rentalService, PasswordEncoder passwordEncoder) {
         this.carService = carService;
         this.userService = userService;
         this.rentalService = rentalService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("")
@@ -42,7 +45,8 @@ public class AdminController {
     public String saveUser(@ModelAttribute("user") User user) {
         User existingUser = userService.getUserById(user.getId());
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            String encodedPassword = "{noop}" + user.getPassword();
+//            String encodedPassword = "{noop}" + user.getPassword();
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
         } else {
             // Retain the old password

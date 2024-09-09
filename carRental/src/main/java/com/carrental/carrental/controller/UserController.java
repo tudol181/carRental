@@ -8,6 +8,7 @@ import com.carrental.carrental.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,11 +25,13 @@ public class UserController {
 
     private final UserService userService;
     private final RentalService rentalService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, RentalService rentalService) {
+    public UserController(UserService userService, RentalService rentalService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.rentalService = rentalService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/profile")
@@ -75,7 +78,8 @@ public class UserController {
         }
 
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            String encodedPassword = "{noop}" + user.getPassword();
+//            String encodedPassword = "{noop}" + user.getPassword();
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
         } else {
             // old password
