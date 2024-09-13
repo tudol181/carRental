@@ -45,7 +45,7 @@ public class RentalDAOImpl implements RentalDAO {
 
         Rental rental;
         try {
-            rental = query.getSingleResult();  // Fetch the single rental
+            rental = query.getSingleResult();
         } catch (NoResultException e) {
             throw new EntityNotFoundException("Rental not found for user " + userId + " and car " + carId);
         }

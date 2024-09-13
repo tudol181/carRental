@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PhotoService {
     private final PhotoDAO photoDAO;
@@ -18,5 +20,15 @@ public class PhotoService {
     @Transactional
     public void savePhoto(Photo photo) {
         photoDAO.savePhoto(photo);
+    }
+
+    @Transactional
+    public List<Photo> getPhotosByCarId(int id) {
+        return photoDAO.getPhotosByCarId(id);
+    }
+
+    @Transactional
+    public void deletePhoto(int id) {
+        photoDAO.deletePhoto(id);
     }
 }

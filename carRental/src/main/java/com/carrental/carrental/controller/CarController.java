@@ -59,6 +59,7 @@ public class CarController {
         String photoPath = savePhoto(photo, car);
         car.setType(car.getType());
         car.setPhotoUrl(photoPath);
+        car.setNrRenters(0);
         carService.updateCar(car);
 
         userService.getUserByUsername(principal.getName()).addOwnedCar(car);
@@ -141,13 +142,39 @@ public class CarController {
     }
 
     @PostMapping("/addCarPhotos/{id}")
-    public String addCarPhotos(@PathVariable("id") Integer id, @RequestParam(value = "photos", required = false) MultipartFile[] photos) {
+    public String addCarPhotos(@PathVariable("id") Integer id, @RequestParam("photos") MultipartFile[] photos) {
         Car car = carService.findCarById(id);
 
+        // Get the main photo URL
+        String mainPhotoUrl = car.getPhotoUrl();
+
+        // Get the folder where the photos are stored
+        String baseFolder = "C:\\Users\\tudy1\\OneDrive\\Desktop\\car-rental-project\\carRental\\src\\main\\resources\\static\\photos";
+        String folderName = car.getId() + "_" + car.getName().replaceAll("\\s+", "_");
+        String folderPath = Paths.get(baseFolder, folderName).toString();
+
+        // Delete all photos in the folder except the main photo
+        File directory = new File(folderPath);
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (!file.getName().equals(Paths.get(mainPhotoUrl).getFileName().toString())) {
+                        file.delete();
+                    }
+                }
+            }
+        }
+        List<Photo> carPhotos = photoService.getPhotosByCarId(car.getId()); // Assuming this method exists in PhotoService
+        for (Photo photo : carPhotos) {
+            if (!photo.getUrl().equals(mainPhotoUrl)) {
+                photoService.deletePhoto(photo.getId()); // Remove from database
+            }
+        }
+        // Save the new photos
         for (MultipartFile photo : photos) {
             if (photo != null && !photo.isEmpty()) {
-                String photoUrl = savePhoto(photo, car);//also get the url
-
+                String photoUrl = savePhoto(photo, car);
                 Photo picture = new Photo(photoUrl, car);
                 photoService.savePhoto(picture);
             }
@@ -155,6 +182,7 @@ public class CarController {
 
         return "redirect:/";
     }
+
 
     @PostMapping("/{id}/rent")
     public String rentCar(@PathVariable("id") int id,
@@ -277,6 +305,7 @@ public class CarController {
 
     @PostMapping("/saveCar")
     public String saveCar(@ModelAttribute("car") Car car,
+                          @RequestParam("updatePhotos") String updatePhotos,
                           Principal principal) {
         Car existingCar = carService.findCarById(car.getId());
         if (!Objects.equals(existingCar.getOwner().getId(), userService.getUserByUsername(principal.getName()).getId())) {
@@ -294,7 +323,14 @@ public class CarController {
         existingCar.setPrice(car.getPrice());
         existingCar.setPhotoUrl(car.getPhotoUrl());
         existingCar.setType(car.getType());
+        if(car.getNrRenters() == null)
+            car.setNrRenters(0);
+        existingCar.setNrRenters(car.getNrRenters());
         carService.updateCar(existingCar);
+
+        if ("yes".equals(updatePhotos)) {
+            return "redirect:/car/addCarPhotos/" + car.getId();
+        }
 
         return "redirect:/user/profile";
     }

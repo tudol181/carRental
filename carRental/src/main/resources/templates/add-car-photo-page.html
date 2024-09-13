@@ -9,6 +9,7 @@
 </head>
 <body>
 <h1>Add Photos for Car</h1>
+
 <form action="#" th:action="@{/car/addCarPhotos/{id}(id=${car.id})}" method="post" enctype="multipart/form-data">
     <input type="hidden" th:name="${car.id}" th:value="${car.id}"/>
 

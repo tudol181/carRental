@@ -2,6 +2,7 @@ package com.carrental.carrental.daoimpl;
 
 import com.carrental.carrental.dao.CarDAO;
 import com.carrental.carrental.entity.Car;
+import com.carrental.carrental.entity.Photo;
 import com.carrental.carrental.entity.Review;
 import com.carrental.carrental.entity.User;
 import jakarta.persistence.EntityManager;
@@ -118,4 +119,5 @@ public class CarDAOImpl implements CarDAO {
                 .sorted(ascending ? Comparator.comparing(Car::getNrRenters) : Comparator.comparing(Car::getNrRenters).reversed())
                 .collect(Collectors.toList());
     }
+
 }

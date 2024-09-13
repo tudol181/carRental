@@ -59,7 +59,6 @@ public class Car {
     private User owner;
 
     @Column(name = "type")
-    @NotNull(message = "Car type is required")
     private String type;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})

@@ -68,6 +68,14 @@
             <input type="text" th:field="*{photoUrl}" class="form-control" id="photoUrl" placeholder="Photo URL">
         </div>
 
+        <div class="mb-3">
+            <label for="updatePhotos" class="form-label">Would you like to update the car photos?</label>
+            <select id="updatePhotos" name="updatePhotos" class="form-select" required>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Update Car</button>
     </form>
 
