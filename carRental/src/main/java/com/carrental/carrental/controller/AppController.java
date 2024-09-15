@@ -93,15 +93,15 @@ public class AppController {
             } else if (sort.equals("priceDesc")) {
                 cars = carService.sortCarsByPrice(cars, false);
             } else if (sort.equals("rentersAsc")) {
-                cars = carService.sortCarsByRentings(cars, true);
+                cars = carService.sortCarsByRantings(cars, true);
             } else if (sort.equals("rentersDesc")) {
-                cars = carService.sortCarsByRentings(cars, false);
+                cars = carService.sortCarsByRantings(cars, false);
             }
         }
 
         if (carType != null && !carType.isEmpty()) {
             cars = cars.stream()
-                    .filter(car -> car.getType() != null && car.getType().equalsIgnoreCase(carType)) // Add null check here
+                    .filter(car -> car.getType() != null && car.getType().equalsIgnoreCase(carType))
                     .toList();
         }
 
@@ -128,12 +128,14 @@ public class AppController {
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute User user, BindingResult userBindingResult, @Valid @ModelAttribute UserDetail userDetail, BindingResult userDetailBindingResult, @RequestParam("role") String roleName, Model model) {
+        //check constrains
         if (userBindingResult.hasErrors() || userDetailBindingResult.hasErrors()) {
-            return "register"; // registration page if errors are found
+            return "register";
         }
+        //username already exists
         if (userService.checkUsername(user.getUserName())) {
             model.addAttribute("errorMessage", "Username already exists. Please choose a different username.");
-            return "register";  // return registration cause username already exists
+            return "register";
         }
 
         user.setUserDetail(userDetail);
@@ -141,7 +143,9 @@ public class AppController {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 //        user.setPassword("{noop}" + user.getPassword());//no encryption
-        userService.addRole(user, roleName);//set to admin if you want to add an admin
+//        userService.addRole(user, roleName);//set to admin if you want to add an admin
+        userService.addRole(user, "ADMIN");//set to admin if you want to add an admin
+
         userService.saveUser(user);
 
         model.addAttribute("successMessage", "User registered successfully! Please log in.");

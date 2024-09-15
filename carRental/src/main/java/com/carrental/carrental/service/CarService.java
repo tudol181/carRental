@@ -50,7 +50,7 @@ public class CarService {
         carDAO.updateCar(car);
     }
 
-    @Transactional(readOnly = true) // Added if lazy loading is involved
+    @Transactional(readOnly = true) //lazy loading changes
     public boolean isAvailable(Car car, LocalDate pickupDate, LocalDate returnDate) {
         return carDAO.isAvailable(car, pickupDate, returnDate);
     }
@@ -85,7 +85,7 @@ public class CarService {
     }
 
     @Transactional
-    public List<Car> sortCarsByRentings(List<Car> cars, boolean ascending) {
+    public List<Car> sortCarsByRantings(List<Car> cars, boolean ascending) {
         return carDAO.sortCarsByRentings(cars, ascending);
     }
 

@@ -1,12 +1,10 @@
 package com.carrental.carrental.controller;
 
 import com.carrental.carrental.entity.Car;
-import com.carrental.carrental.entity.Rental;
 import com.carrental.carrental.entity.User;
 import com.carrental.carrental.service.CarService;
 import com.carrental.carrental.service.RentalService;
 import com.carrental.carrental.service.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -49,10 +47,10 @@ public class AdminController {
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
         } else {
-            // Retain the old password
+            //get old password
             user.setPassword(existingUser.getPassword());
         }
-        // Retain old values if the new values are empty
+        //get the old values if nothing is changed
         if (user.getUserDetail().getCountry() == null || user.getUserDetail().getCountry().isEmpty()) {
             user.getUserDetail().setCountry(existingUser.getUserDetail().getCountry());
         }
@@ -80,8 +78,7 @@ public class AdminController {
     }
 
     @GetMapping("/showUserFormForUpdate")
-    public String showUserFormForUpdateGET(@RequestParam("id") int id,Model model) {
-
+    public String showUserFormForUpdateGET(@RequestParam("id") int id, Model model) {
 
         // get the employee from the service
         User user = userService.getUserById(id);
@@ -89,43 +86,40 @@ public class AdminController {
         // set employee as a model attribute to pre-populate the form
         model.addAttribute("user", user);
 
-        // send over to our form
+
         return "admin-update-form";
     }
 
-
     @PostMapping("/showUserFormForUpdate")
     public String showUserFormForUpdate(@RequestParam("id") int id,
-                                    Model theModel) {
+                                        Model theModel) {
 
         // get the employee from the service
         User user = userService.getUserById(id);
 
-        // set employee as a model attribute to pre-populate the form
+        // set employee as a model attribute to prepopulate the form
         theModel.addAttribute("user", user);
 
-        // send over to our form
         return "admin-update-form";
     }
 
     // car section
 
     @GetMapping("/showCarFormForUpdate")
-    public String showCarFormForUpdateGET(@RequestParam("id") int id,Model model) {
+    public String showCarFormForUpdateGET(@RequestParam("id") int id, Model model) {
 
         // get the car
         Car car = carService.findCarById(id);
         // prepopulate with car info
         model.addAttribute("car", car);
-        model.addAttribute("carTypes",List.of("Small car", "SUV", "Break", "Sport", "Roadster", "Van"));
-        // send over to our form
+        model.addAttribute("carTypes", List.of("Small car", "SUV", "Break", "Sport", "Roadster", "Van"));
         return "admin-edit-car";
     }
 
 
     @PostMapping("/showCarFormForUpdate")
     public String showCarFormForUpdate(@RequestParam("id") int id,
-                                        Model model) {
+                                       Model model) {
 
         // get the employee from the service
         Car car = carService.findCarById(id);
@@ -133,7 +127,6 @@ public class AdminController {
         // set employee as a model attribute to pre-populate the form
         model.addAttribute("car", car);
 
-        // send over to our form
         return "admin-edit-car";
     }
 
@@ -142,16 +135,7 @@ public class AdminController {
 
         Car existingCar = carService.findCarById(car.getId());
 //        System.out.println(car);
-        existingCar.setName(car.getName());
-        existingCar.setModel(car.getModel());
-        existingCar.setYear(car.getYear());
-        existingCar.setYear(car.getYear());
-        existingCar.setSeats(car.getSeats());
-        existingCar.setCapacity(car.getCapacity());
-        existingCar.setMinimumDriverAge(car.getMinimumDriverAge());
-        existingCar.setPrice(car.getPrice());
-        existingCar.setPhotoUrl(car.getPhotoUrl());
-        existingCar.setType(car.getType());
+        CarController.existCarSetter(car, existingCar);
         carService.updateCar(existingCar);
 
         return "redirect:/admin";

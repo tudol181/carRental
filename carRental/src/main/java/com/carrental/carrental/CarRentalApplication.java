@@ -29,9 +29,9 @@ public class CarRentalApplication {
     public CommandLineRunner commandLineRunner(UserService userService, CarService carService, ReviewService reviewService, EntityManager em) {
         return runner -> {
             try {
-                User user = userService.getUserById(28);
-                System.out.println(user.getRoles());
-                user.setRoles(List.of(new Role("ROLE_ADMIN")));
+//                User user = userService.getUserById(28);
+//                System.out.println(user.getRoles());
+//                user.setRoles(List.of(new Role("ROLE_ADMIN")));
             } catch (Exception e) {
                 e.printStackTrace();
             }

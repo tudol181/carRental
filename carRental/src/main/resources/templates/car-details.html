@@ -37,9 +37,6 @@
     <p>Min. Driver Age: <span th:text="${car.minimumDriverAge}"></span> years</p>
     <p class="text-primary fw-bold" th:text="'$' + ${car.price}"></p>
 
-
-    <!-- Button to load more reviews -->
-
     <p th:if="${errorMessage}" class="text-danger" th:text="${errorMessage}"></p>
 
     <h4>Unavailable Dates:</h4>

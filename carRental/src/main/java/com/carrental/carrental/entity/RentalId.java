@@ -7,8 +7,6 @@ public class RentalId implements Serializable {
     private int user;
     private int car;
 
-    // Default constructor, hashCode, equals, and getters/setters
-
     public RentalId() {
     }
 

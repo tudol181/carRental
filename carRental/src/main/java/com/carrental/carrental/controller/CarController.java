@@ -68,32 +68,32 @@ public class CarController {
     }
 
     private String savePhoto(MultipartFile photo, Car car) {
-        // Define the folder base path
-        String baseFolder = "C:\\Users\\tudy1\\OneDrive\\Desktop\\car-rental-project\\carRental\\src\\main\\resources\\static\\photos";
+        //folder base path
+        String baseFolder = "C:\\Users\\User\\IdeaProjects\\carRental\\carRental\\src\\main\\resources\\static\\photos";
 
-        // Create folder name using car ID and name
+        //name= car id and name
         String folderName = car.getId() + "_" + car.getName().replaceAll("\\s+", "_"); // Replace spaces with underscores
         String folderPath = Paths.get(baseFolder, folderName).toString();
 
-        // Create the directory if it does not exist
+        // check directory and create it if it doesn't exist
         File directory = new File(folderPath);
         if (!directory.exists()) {
-            directory.mkdirs(); // Create the directory structure
+            directory.mkdirs();
         }
 
-        // Create the file path for the photo
+        // photo file path
         String fileName = photo.getOriginalFilename();
         Path filePath = Paths.get(folderPath, fileName);
 
         try {
-            // Save the uploaded file
+            //save the uploaded file
             photo.transferTo(filePath.toFile());
         } catch (IOException e) {
-            e.printStackTrace(); // Log the exception for debugging
+            e.printStackTrace();
         }
 
-        // Return the path to save in the database
-        return "/photos/" + folderName + "/" + fileName; // Updated path to reflect folder structure
+        // path to save in the db
+        return "/photos/" + folderName + "/" + fileName;
     }
 
 
@@ -112,7 +112,8 @@ public class CarController {
             boolean isRented = currentUser.getCars().contains(car);
             model.addAttribute("isRented", isRented);
             model.addAttribute("currentUserId", currentUser.getId());
-
+            //only reviews for the car
+            //select only the user reviews(the one connected)
             List<Review> userReviews = reviews.stream()
                     .filter(review -> Objects.equals(review.getUser().getId(), currentUser.getId()))
                     .collect(Collectors.toList());
@@ -145,15 +146,16 @@ public class CarController {
     public String addCarPhotos(@PathVariable("id") Integer id, @RequestParam("photos") MultipartFile[] photos) {
         Car car = carService.findCarById(id);
 
-        // Get the main photo URL
+        //main photo url(saved in car db)
         String mainPhotoUrl = car.getPhotoUrl();
 
-        // Get the folder where the photos are stored
+        //folder path
         String baseFolder = "C:\\Users\\tudy1\\OneDrive\\Desktop\\car-rental-project\\carRental\\src\\main\\resources\\static\\photos";
         String folderName = car.getId() + "_" + car.getName().replaceAll("\\s+", "_");
         String folderPath = Paths.get(baseFolder, folderName).toString();
 
-        // Delete all photos in the folder except the main photo
+        //delete all from the photo table
+        //not the main photo in car db
         File directory = new File(folderPath);
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
@@ -165,13 +167,13 @@ public class CarController {
                 }
             }
         }
-        List<Photo> carPhotos = photoService.getPhotosByCarId(car.getId()); // Assuming this method exists in PhotoService
+        List<Photo> carPhotos = photoService.getPhotosByCarId(car.getId());
         for (Photo photo : carPhotos) {
             if (!photo.getUrl().equals(mainPhotoUrl)) {
-                photoService.deletePhoto(photo.getId()); // Remove from database
+                photoService.deletePhoto(photo.getId()); // remove from db
             }
         }
-        // Save the new photos
+        //save the new photos
         for (MultipartFile photo : photos) {
             if (photo != null && !photo.isEmpty()) {
                 String photoUrl = savePhoto(photo, car);
@@ -210,10 +212,10 @@ public class CarController {
             return getCarDetails(id, model, principal);
         }
 
-        // Check for existing rentals for the user
+        //check for existing rentals of user
         List<Rental> existingRentals = rentalService.findRentalsByUserId(user.getId());
 
-        // Ensure that no existing rental conflicts with the new one
+        //only rent once a car
         for (Rental rental : existingRentals) {
             if (rental.getCar().getId() == id) {
                 model.addAttribute("errorMessage", "You already have a rental for this car.");
@@ -221,9 +223,9 @@ public class CarController {
             }
         }
 
-        // Create a new rental if no existing conflict is found
+        //create rental
         Rental newRental = new Rental(user, car, pickupDate, returnDate);
-        rentalService.saveRental(newRental); // Save the new rental
+        rentalService.saveRental(newRental);
         car.setNrRenters(car.getNrRenters() + 1);
         carService.updateCar(car);
         return "redirect:/car/" + id + "?success=CarRented";
@@ -233,10 +235,9 @@ public class CarController {
 
     @PostMapping("/{id}/remove-rented-car")
     public String removeRentedCar(@PathVariable("id") int id, Principal principal) {
-        // Get the user
         User user = userService.getUserByUsername(principal.getName());
 
-        // Find the car by id
+        //find car by id
         Car car = carService.findCarById(id);
         if (car == null) {
             return "redirect:/car/" + id + "?error=CarNotFound";
@@ -244,11 +245,13 @@ public class CarController {
 
         car.setNrRenters(car.getNrRenters() - 1);
         carService.updateCar(car);
-        // remove the car from the user's rented cars
+
+        //remove from the user
+
         user.removeCar(car);
         userService.updateUser(user);
 
-        return "redirect:/user/profile";  // Redirect to the user's profile after removal
+        return "redirect:/user/profile";  // go to user profile
     }
 
     @PostMapping("/delete")
@@ -256,12 +259,12 @@ public class CarController {
         Car car = carService.findCarById(id);
         if (car == null || !car.getOwner().getUserName().equals(principal.getName())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Car not found or you do not have permission to delete it.");
-            return "redirect:/error"; // Redirect if car not found or not the owner
+            return "redirect:/error"; //car not found / not the owner
         }
 
         carService.deleteCar(id);
         redirectAttributes.addFlashAttribute("successMessage", "Car deleted successfully.");
-        return "redirect:/user/profile"; // Redirect to the user's profile after deletion
+        return "redirect:/user/profile"; //user profile
     }
 
     @GetMapping("/showCarFormForUpdate")
@@ -269,16 +272,17 @@ public class CarController {
                                           Principal principal,
                                           Model model) {
 
-        // get the car
+        //get the car
         Car car = carService.findCarById(id);
+        //check if the user is the owner
+
         if (!Objects.equals(car.getOwner().getId(), userService.getUserByUsername(principal.getName()).getId())) {
-            // Redirect or show error message
-            return "redirect:/error"; // Redirect to an error page or show a message
+            return "redirect:/error";
         }
-        // prepopulate with car info
+        //prepopulate with car info
         model.addAttribute("car", car);
 
-        // send over to our form
+        //send over to form
         return "seller-edit-file";
     }
 
@@ -288,18 +292,16 @@ public class CarController {
                                        Principal principal,
                                        Model model) {
 
-        // get the employee from the service
+        //get the employee from the service
         Car car = carService.findCarById(id);
 
         if (!Objects.equals(car.getOwner().getId(), userService.getUserByUsername(principal.getName()).getId())) {
-            // Redirect or show error message
-            return "redirect:/error"; // Redirect to an error page or show a message
+            return "redirect:/error";
         }
 
-        // set employee as a model attribute to pre-populate the form
+        //populate form
         model.addAttribute("car", car);
 
-        // send over to our form
         return "seller-edit-file";
     }
 
@@ -308,11 +310,29 @@ public class CarController {
                           @RequestParam("updatePhotos") String updatePhotos,
                           Principal principal) {
         Car existingCar = carService.findCarById(car.getId());
+        //check ownership
         if (!Objects.equals(existingCar.getOwner().getId(), userService.getUserByUsername(principal.getName()).getId())) {
-            // Redirect or show error message
-            return "redirect:/error"; // Redirect to an error page or show a message
+            return "redirect:/error";
         }
-        System.out.println(car);
+
+//        System.out.println(car);
+
+        existCarSetter(car, existingCar);
+        if(car.getNrRenters() == null)
+            car.setNrRenters(0);
+        existingCar.setNrRenters(car.getNrRenters());
+        carService.updateCar(existingCar);
+
+        ///photo flag
+        if ("yes".equals(updatePhotos)) {
+            return "redirect:/car/addCarPhotos/" + car.getId();
+        }
+
+        return "redirect:/user/profile";
+    }
+
+    //set the new car values to the existing car one
+    static void existCarSetter(@ModelAttribute("car") Car car, Car existingCar) {
         existingCar.setName(car.getName());
         existingCar.setModel(car.getModel());
         existingCar.setYear(car.getYear());
@@ -323,27 +343,19 @@ public class CarController {
         existingCar.setPrice(car.getPrice());
         existingCar.setPhotoUrl(car.getPhotoUrl());
         existingCar.setType(car.getType());
-        if(car.getNrRenters() == null)
-            car.setNrRenters(0);
-        existingCar.setNrRenters(car.getNrRenters());
-        carService.updateCar(existingCar);
-
-        if ("yes".equals(updatePhotos)) {
-            return "redirect:/car/addCarPhotos/" + car.getId();
-        }
-
-        return "redirect:/user/profile";
     }
 
     @PostMapping("/{carId}/review")
     public String postReview(@PathVariable int carId, @RequestParam String comment, Principal principal) {
-        System.out.println(principal);
+//        System.out.println(principal);
+
         User user = userService.getUserByUsername(principal.getName());
         Review review = new Review();
         review.setComment(comment);
         review.setCar(carService.findCarById(carId));
         review.setUser(user);
-        System.out.println(user);
+//        System.out.println(user);
+
         reviewService.saveReview(review);
         return "redirect:/car/" + carId;
     }
@@ -351,18 +363,20 @@ public class CarController {
     @GetMapping("/review/edit")
     public String editReview(@RequestParam("id") int id, Model model, Principal principal) {
         Review review = reviewService.getReviewById(id);
+        //check if the review owner is logged in
         if (review == null || !review.getUser().getUserName().equals(principal.getName())) {
-            return "redirect:/error"; // Redirect or show error message
+            return "redirect:/error";
         }
         model.addAttribute("review", review);
-        return "edit-review"; // Create an edit-review.html template for this
+        return "edit-review";
     }
 
     @PostMapping("/review/edit/{id}")
     public String saveEditedReview(@ModelAttribute Review review, Principal principal) {
         Review existingReview = reviewService.getReviewById(review.getId());
+        //check if the review owner is logged in
         if (existingReview == null || !existingReview.getUser().getUserName().equals(principal.getName())) {
-            return "redirect:/error"; // Redirect or show error message
+            return "redirect:/error";
         }
         existingReview.setComment(review.getComment());
         reviewService.saveReview(existingReview);
@@ -372,8 +386,9 @@ public class CarController {
     @PostMapping("/review/delete")
     public String deleteReview(@RequestParam("id") int id, Principal principal) {
         Review review = reviewService.getReviewById(id);
+        //check if the review owner is logged in
         if (review == null || !review.getUser().getUserName().equals(principal.getName())) {
-            return "redirect:/error"; // Redirect or show error message
+            return "redirect:/error";
         }
         System.out.println(review);
         carService.removeReview(review.getCar().getId(), review.getId());

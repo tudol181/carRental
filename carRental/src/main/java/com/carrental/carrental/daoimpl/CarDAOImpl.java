@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,7 +61,8 @@ public class CarDAOImpl implements CarDAO {
     @Override
     public List<Car> findAllCars() {
         TypedQuery<Car> query = em.createQuery("from Car", Car.class);
-        return query.getResultList();
+        List<Car> cars = query.getResultList();
+        return cars != null ? cars : Collections.emptyList();
     }
 
     @Override

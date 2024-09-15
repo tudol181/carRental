@@ -12,12 +12,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
@@ -52,7 +54,7 @@ public class UserController {
 
     @GetMapping("/edit-profile")
     public String showEditProfileForm(Principal principal, Model model) {
-        // authenticated user
+        //authenticated user
         String username = principal.getName();
         User currentUser = userService.getUserByUsername(username);
 
@@ -65,7 +67,7 @@ public class UserController {
     public String editUserProfile(@Valid @ModelAttribute("user") User user,
                                   BindingResult bindingResult,
                                   Principal principal) {
-        // authenticated user
+        //authenticated user
         String username = principal.getName();
         User currentUser = userService.getUserByUsername(username);
 
@@ -82,7 +84,7 @@ public class UserController {
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
         } else {
-            // old password
+            //old password
             user.setPassword(currentUser.getPassword());
         }
 
@@ -93,7 +95,4 @@ public class UserController {
 
         return "redirect:/user/profile";
     }
-
-
-
 }
