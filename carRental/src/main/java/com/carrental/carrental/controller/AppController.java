@@ -143,8 +143,8 @@ public class AppController {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 //        user.setPassword("{noop}" + user.getPassword());//no encryption
-//        userService.addRole(user, roleName);//set to admin if you want to add an admin
-        userService.addRole(user, "ADMIN");//set to admin if you want to add an admin
+        userService.addRole(user, roleName);//set to admin if you want to add an admin
+//        userService.addRole(user, "ADMIN");//set to admin if you want to add an admin
 
         userService.saveUser(user);
 

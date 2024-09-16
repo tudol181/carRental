@@ -5,7 +5,6 @@ import com.carrental.carrental.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +38,20 @@ public class CarController {
         this.photoService = photoService;
         this.rentalService = rentalService;
         this.reviewService = reviewService;
+    }
+
+    //set the new car values to the existing car one
+    static void existCarSetter(@ModelAttribute("car") Car car, Car existingCar) {
+        existingCar.setName(car.getName());
+        existingCar.setModel(car.getModel());
+        existingCar.setYear(car.getYear());
+        existingCar.setYear(car.getYear());
+        existingCar.setSeats(car.getSeats());
+        existingCar.setCapacity(car.getCapacity());
+        existingCar.setMinimumDriverAge(car.getMinimumDriverAge());
+        existingCar.setPrice(car.getPrice());
+        existingCar.setPhotoUrl(car.getPhotoUrl());
+        existingCar.setType(car.getType());
     }
 
     @GetMapping("/addCar")
@@ -96,7 +109,6 @@ public class CarController {
         return "/photos/" + folderName + "/" + fileName;
     }
 
-
     @GetMapping("/{id}")
     public String getCarDetails(@PathVariable("id") int id, Model model, Principal principal) {
         Car car = carService.findCarById(id);
@@ -145,7 +157,6 @@ public class CarController {
         return "car-details";
     }
 
-
     // car form
     @GetMapping("/addCarPhotos/{id}")
     public String addCarPhotosPage(@PathVariable("id") Integer id, Model model) {
@@ -162,7 +173,7 @@ public class CarController {
         String mainPhotoUrl = car.getPhotoUrl();
 
         //folder path
-        String baseFolder = "C:\\Users\\tudy1\\OneDrive\\Desktop\\car-rental-project\\carRental\\src\\main\\resources\\static\\photos";
+        String baseFolder = "C:\\Users\\User\\IdeaProjects\\carRental\\carRental\\src\\main\\resources\\static\\photos";
         String folderName = car.getId() + "_" + car.getName().replaceAll("\\s+", "_");
         String folderPath = Paths.get(baseFolder, folderName).toString();
 
@@ -179,6 +190,7 @@ public class CarController {
                 }
             }
         }
+
         List<Photo> carPhotos = photoService.getPhotosByCarId(car.getId());
         for (Photo photo : carPhotos) {
             if (!photo.getUrl().equals(mainPhotoUrl)) {
@@ -196,7 +208,6 @@ public class CarController {
 
         return "redirect:/";
     }
-
 
     @PostMapping("/{id}/rent")
     public String rentCar(@PathVariable("id") int id,
@@ -243,8 +254,6 @@ public class CarController {
         return "redirect:/car/" + id + "?success=CarRented";
     }
 
-
-
     @PostMapping("/{id}/remove-rented-car")
     public String removeRentedCar(@PathVariable("id") int id, Principal principal) {
         User user = userService.getUserByUsername(principal.getName());
@@ -266,7 +275,6 @@ public class CarController {
 
         return "redirect:/user/profile";
     }
-
 
     @PostMapping("/delete")
     public String deleteCar(@RequestParam("id") int id, Principal principal, RedirectAttributes redirectAttributes) {
@@ -300,7 +308,6 @@ public class CarController {
         return "seller-edit-file";
     }
 
-
     @PostMapping("/showCarFormForUpdate")
     public String showCarFormForUpdate(@RequestParam("id") int id,
                                        Principal principal,
@@ -332,7 +339,7 @@ public class CarController {
 //        System.out.println(car);
 
         existCarSetter(car, existingCar);
-        if(car.getNrRenters() == null)
+        if (car.getNrRenters() == null)
             car.setNrRenters(0);
         existingCar.setNrRenters(car.getNrRenters());
         carService.updateCar(existingCar);
@@ -343,20 +350,6 @@ public class CarController {
         }
 
         return "redirect:/user/profile";
-    }
-
-    //set the new car values to the existing car one
-    static void existCarSetter(@ModelAttribute("car") Car car, Car existingCar) {
-        existingCar.setName(car.getName());
-        existingCar.setModel(car.getModel());
-        existingCar.setYear(car.getYear());
-        existingCar.setYear(car.getYear());
-        existingCar.setSeats(car.getSeats());
-        existingCar.setCapacity(car.getCapacity());
-        existingCar.setMinimumDriverAge(car.getMinimumDriverAge());
-        existingCar.setPrice(car.getPrice());
-        existingCar.setPhotoUrl(car.getPhotoUrl());
-        existingCar.setType(car.getType());
     }
 
     @PostMapping("/{carId}/review")
@@ -404,10 +397,10 @@ public class CarController {
         if (review == null || !review.getUser().getUserName().equals(principal.getName())) {
             return "redirect:/error";
         }
-        System.out.println(review);
+//        System.out.println(review);
         carService.removeReview(review.getCar().getId(), review.getId());
         reviewService.deleteReview(review.getId());
-        System.out.println(review);
+//        System.out.println(review);
         return "redirect:/car/" + review.getCar().getId();
     }
 
