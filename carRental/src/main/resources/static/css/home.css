@@ -4,95 +4,87 @@ body {
     background-size: cover;
 }
 
-/* Header Styling */
 .header {
-    background-color: #0056b3;  /* Darker blue color for the header */
+    background-color: #0056b3;
     color: white;
     padding: 40px 0;
     text-align: center;
     margin-bottom: 0;
 }
 
-/* Navbar Styling */
 .nav {
-    background-color: #007bff; /* Distinct blue for the navbar */
+    background-color: #007bff;
     padding: 15px;
     margin-top: 0;
     border-radius: 5px;
 }
 
-/* Button styling for car buttons */
 .btn-primary {
-    background-color: #6c757d; /* Grey color */
-    border-color: #6c757d;  /* Set border to grey */
+    background-color: #6c757d;
+    border-color: #6c757d;
     color: white;
 }
 
 .btn-secondary {
-    background-color: #28a745; /* Green color for filter button */
-    border-color: #28a745;  /* Set border to green */
+    background-color: #28a745;
+    border-color: #28a745;
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #5a6268; /* Darker grey on hover */
+    background-color: #5a6268;
     border-color: #5a6268;
 }
 
 .btn-secondary:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838;
     border-color: #1e7e34;
 }
 
-/* Add transition for a smooth hover effect on car items */
 .car-item {
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .car-item:hover {
-    transform: scale(1.05); /* Slightly enlarges the card */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adds shadow on hover */
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Custom styling for the filter card */
 .filter {
     background-color: #f8f9fa;
     padding: 15px;
     border-radius: 10px;
 }
 
-/* Styling for car titles to be grey and not underlined */
 .card-title a {
-    color: #6c757d; /* Grey color */
-    text-decoration: none; /* Remove underline */
+    color: #6c757d;
+    text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .card-title a:hover {
-    color: #5a6268; /* Darker grey on hover */
-    text-decoration: none; /* Keep underline removed */
+    color: #5a6268;
+    text-decoration: none;
 }
 
-/* Ensure price text is bold and not underlined */
 .card-text {
     text-decoration: none;
-    color: #6c757d; /* Grey color */
+    color: #6c757d;
 }
 
-/* Price specifically */
 .card-text.text-primary {
-    color: #5a6268; /* Darker grey for the price */
+    color: #5a6268;
     font-weight: bold;
 }
 
 .btn-logout {
-    background-color: #2196F3;  /* Same blue as the header */
+    background-color: #2196F3;
     color: white;
     border: none;
     transition: background-color 0.3s ease;
 }
 
 .btn-logout:hover {
-    background-color: #1976D2;  /* Slightly darker blue on hover */
+    background-color: #1976D2;
     color: white;
 }

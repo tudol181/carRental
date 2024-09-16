@@ -1,26 +1,25 @@
-/* Add background styling for consistency */
 body {
-    background-color: #f8f9fa; /* Light grey background */
+    background-color: #f8f9fa;
 }
 
 .edit-profile-container {
     background-color: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary {
-    background-color: #6c757d; /* Grey color for primary buttons */
+    background-color: #6c757d;
     border: none;
 }
 
 .btn-primary:hover {
-    background-color: #5a6268; /* Darker grey on hover */
+    background-color: #5a6268;
 }
 
 .btn-secondary {
-    background-color: #343a40; /* Darker grey for secondary button */
+    background-color: #343a40;
 }
 
 .btn-secondary:hover {
@@ -32,5 +31,5 @@ body {
 }
 
 .form-control {
-    border-radius: 0.25rem; /* Consistent rounded edges for inputs */
+    border-radius: 0.25rem;
 }

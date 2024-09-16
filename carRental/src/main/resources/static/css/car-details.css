@@ -1,7 +1,7 @@
 body {
     background: linear-gradient(135deg, #4595bf, #E4E5E6) fixed;
     background-size: cover;
-    color: #333; /* Dark text for better contrast */
+    color: #333;
 }
 .header {
     background-color: #0056b3;
@@ -55,9 +55,9 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 h3, h4 {
-    color: #0056b3; /* Darker color for headings */
+    color: #0056b3;
 }
 p, li {
-    font-size: 1.1em; /* Increase font size for better readability */
-    line-height: 1.5; /* Improve line spacing */
+    font-size: 1.1em;
+    line-height: 1.5;
 }
