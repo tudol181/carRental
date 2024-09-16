@@ -117,6 +117,8 @@ public class CarController {
             List<Review> userReviews = reviews.stream()
                     .filter(review -> Objects.equals(review.getUser().getId(), currentUser.getId()))
                     .collect(Collectors.toList());
+
+
             model.addAttribute("userReviews", userReviews);
         }
 
@@ -124,6 +126,7 @@ public class CarController {
         // not display the null entries(while testing)
         List<Rental> rentals = rentalService.findRentalsByCarId(car.getId()).stream()
                 .filter(rental -> rental.getPickupDate() != null && rental.getReturnDate() != null)
+                .filter(rental -> rental.getReturnDate().isAfter(LocalDate.now()))//rental expires if the date is after the current date
                 .collect(Collectors.toList());
 
         model.addAttribute("car", car);
