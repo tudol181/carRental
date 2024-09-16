@@ -123,6 +123,15 @@ public class CarController {
         }
 
         List<Photo> photos = car.getPhotos(); // all car photos
+
+        List<Rental> allRentals = rentalService.findRentalsByCarId(car.getId());
+
+        List<Rental> expiredRentals = allRentals.stream()
+                .filter(rental -> rental.getReturnDate() != null && rental.getReturnDate().isBefore(LocalDate.now()))
+                .toList();
+        for (Rental expiredRental : expiredRentals) {
+            rentalService.deleteRental(expiredRental);
+        }
         // not display the null entries(while testing)
         List<Rental> rentals = rentalService.findRentalsByCarId(car.getId()).stream()
                 .filter(rental -> rental.getPickupDate() != null && rental.getReturnDate() != null)
