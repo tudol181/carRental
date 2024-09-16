@@ -86,4 +86,23 @@ public class RentalDAOImpl implements RentalDAO {
     public Rental findRentalById(RentalId id) {
         return em.find(Rental.class, id);
     }
+
+    @Override
+    public Rental findRentalByUserIdAndCarId(int userId, int carId) {
+        TypedQuery<Rental> query = em.createQuery(
+                "SELECT r FROM Rental r WHERE r.user.id = :userId AND r.car.id = :carId", Rental.class);
+        query.setParameter("userId", userId);
+        query.setParameter("carId", carId);
+
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteRental(Rental rental) {
+        em.remove(rental);
+    }
 }

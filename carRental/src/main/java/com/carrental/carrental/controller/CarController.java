@@ -237,22 +237,24 @@ public class CarController {
     public String removeRentedCar(@PathVariable("id") int id, Principal principal) {
         User user = userService.getUserByUsername(principal.getName());
 
-        //find car by id
+        //car by id
         Car car = carService.findCarById(id);
         if (car == null) {
             return "redirect:/car/" + id + "?error=CarNotFound";
         }
 
+        //find rental entry for user and car
+        Rental rental = rentalService.findRentalByUserIdAndCarId(user.getId(), car.getId());
+        if (rental != null) {
+            rentalService.deleteRental(rental);
+        }
+
         car.setNrRenters(car.getNrRenters() - 1);
         carService.updateCar(car);
 
-        //remove from the user
-
-        user.removeCar(car);
-        userService.updateUser(user);
-
-        return "redirect:/user/profile";  // go to user profile
+        return "redirect:/user/profile";
     }
+
 
     @PostMapping("/delete")
     public String deleteCar(@RequestParam("id") int id, Principal principal, RedirectAttributes redirectAttributes) {

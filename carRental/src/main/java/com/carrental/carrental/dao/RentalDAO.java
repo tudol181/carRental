@@ -14,4 +14,6 @@ public interface RentalDAO {
     List<Rental> findRentalsByUserId(int id);
     List<Rental> getAllRentals();
     Rental findRentalById(RentalId id);
+    Rental findRentalByUserIdAndCarId(int userId, int carId);
+    void deleteRental(Rental rental);
 }
